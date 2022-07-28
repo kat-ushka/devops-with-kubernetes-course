@@ -15,5 +15,5 @@ spec:
     spec:
       containers:
         -
-          image: "katushka/to-do-project:0.3"
+          image: "katushka/to-do-project:0.4"
           name: to-do-project
