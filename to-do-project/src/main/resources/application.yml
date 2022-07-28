@@ -1,0 +1,8 @@
+server:
+  port: ${port:0}
+
+logging:
+  level:
+    root: ERROR
+    com.github.katushka.devopswithkubernetescourse.todoproject: DEBUG
+
