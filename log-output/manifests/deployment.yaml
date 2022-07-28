@@ -15,5 +15,5 @@ spec:
     spec:
       containers:
         -
-          image: "katushka/log-output:8ec5f898f6c5"
+          image: "katushka/log-output:latest"
           name: log-output
