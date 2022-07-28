@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,5 +14,6 @@ spec:
         app: log-output
     spec:
       containers:
-        - name: log-output
-          image: katushka/log-output:8ec5f898f6c5
+        -
+          image: "katushka/log-output:8ec5f898f6c5"
+          name: log-output
