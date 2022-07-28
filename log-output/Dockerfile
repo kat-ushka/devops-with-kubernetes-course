@@ -1,5 +1,4 @@
-FROM openjdk:17
+FROM tomcat:10.0.23-jdk17
 EXPOSE 8080
-WORKDIR /usr/src/app
-ADD target/log-output-1.0-shaded.jar log-output.jar
-CMD ["java","-jar","log-output.jar"]
+ADD target/ROOT.war /usr/local/tomcat/webapps/
+CMD ["catalina.sh", "run"]
