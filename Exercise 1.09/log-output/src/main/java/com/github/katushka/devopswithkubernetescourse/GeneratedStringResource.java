@@ -1,4 +1,4 @@
-package com.github.katushka.devopswithkubernetescourse.resource;
+package com.github.katushka.devopswithkubernetescourse;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

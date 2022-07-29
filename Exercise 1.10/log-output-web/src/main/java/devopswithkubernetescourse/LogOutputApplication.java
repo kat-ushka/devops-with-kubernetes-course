@@ -1,6 +1,6 @@
 package devopswithkubernetescourse;
 
-import devopswithkubernetescourse.resource.GeneratedStringResource;
+import com.github.katushka.devopswithkubernetescourse.resource.GeneratedStringResource;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 

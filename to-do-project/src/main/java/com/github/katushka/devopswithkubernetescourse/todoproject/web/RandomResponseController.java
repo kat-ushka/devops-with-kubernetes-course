@@ -1,16 +1,18 @@
 package com.github.katushka.devopswithkubernetescourse.todoproject.web;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.inject.Singleton;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 import java.util.UUID;
 
-@RestController
+@Path("/")
+@Singleton
 public class RandomResponseController {
 
     private final String appString = UUID.randomUUID().toString();
 
-    @GetMapping("/")
+    @GET
     public String getRandomResponse() {
         final String requestString = UUID.randomUUID().toString();
         return String.format("Application 1%s. Request 2%s.", appString, requestString);

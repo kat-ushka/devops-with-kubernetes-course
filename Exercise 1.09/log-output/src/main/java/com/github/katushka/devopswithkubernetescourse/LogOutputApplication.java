@@ -1,6 +1,5 @@
 package com.github.katushka.devopswithkubernetescourse;
 
-import com.github.katushka.devopswithkubernetescourse.resource.GeneratedStringResource;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 import org.apache.logging.log4j.LogManager;

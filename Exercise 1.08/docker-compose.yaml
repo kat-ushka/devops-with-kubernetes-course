@@ -1,0 +1,11 @@
+version: '1.0'
+
+services:
+  server:
+    image: to-do-project:0.5
+    container_name: to-do-project
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile
+    environment:
+      - CATALINA_HTTP_PORT=8080
