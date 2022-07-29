@@ -24,6 +24,7 @@ To perform exercise flow I did next steps:
     `docker image push katushka/ping-pong:1.1`  
 2. Started kubernetes cluster with command:  
     `k3d cluster create -p 8081:80@loadbalancer --agents 2`
-3. Applied configs with command:  
-   `kubectl apply -f manifests/`  
+3. Applied configs with commands:  
+   `kubectl apply -f ping-pong/manifests/`  
+   `kubectl apply -f log-output/manifests/`  
 4. After the pod was initialized opened http://localhost:8081 to see the response from log-output and http://localhost:8081/pingpong for response from ping-pong.
