@@ -12,7 +12,7 @@ On each request it increments internal counter and return string "pong {counter}
 
 Docker images can be found here:
 - docker pull katushka/log-output:2.4
-- docker pull katushka/ping-pong:1.0
+- docker pull katushka/ping-pong:1.1
 
 To perform exercise flow I did next steps:
 
