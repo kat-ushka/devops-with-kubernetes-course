@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ping-pong-dep
+  name: log-output-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ping-pong
+      app: log-output
   template:
     metadata:
       labels:
-        app: ping-pong
+        app: log-output
     spec:
       containers:
         -
-          image: "katushka/ping-pong:1.0"
-          name: ping-pong
+          image: "katushka/log-output:2.4"
+          name: log-output

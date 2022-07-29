@@ -8,8 +8,8 @@
     <name>Devops with kubernetes course exercises</name>
 
     <modules>
+        <module>Exercise 1.09</module>
         <module>Exercise 1.10</module>
-        <module>ping-pong</module>
         <module>to-do-project</module>
     </modules>
 
