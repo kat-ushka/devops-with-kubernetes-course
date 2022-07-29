@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output
+  template:
+    metadata:
+      labels:
+        app: log-output
+    spec:
+      volumes: # Define volume
+        - name: shared-file
+          emptyDir: { }
+      containers:
+        - image: "katushka/log-output-web:1.0"
+          name: log-output-web
+          volumeMounts: # Mount volume
+            - name: shared-file
+              mountPath: /usr/src/app/files
+          env:
+            - name: filepath
+              value: "/usr/src/app/files/timestamp"
+        - image: "katushka/timestamp-generator:1.0"
+          name: timestamp-generator
+          volumeMounts: # Mount volume
+            - name: shared-file
+              mountPath: /usr/src/app/files
+          env:
+            - name: filepath
+              value: "/usr/src/app/files/timestamp"

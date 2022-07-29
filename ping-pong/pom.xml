@@ -4,11 +4,6 @@
   <artifactId>ping-pong</artifactId>
   <packaging>war</packaging>
   <version>1.0</version>
-  <parent>
-    <artifactId>course-parent</artifactId>
-    <groupId>com.github.katushka.devopswithkubernetescourse</groupId>
-    <version>1.0</version>
-  </parent>
   <name>Ping-pong Webapp</name>
 
   <dependencies>
