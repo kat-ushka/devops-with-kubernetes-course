@@ -1,14 +1,12 @@
 # Exercise 1.01: Getting started
 
-# Exercise realization description
+## Exercise realization description
 
-Application *log-output* is a JAX-RS webapp.  
-It writes to console a new timestamp and a string generated on startup every 5 seconds.
-Application is hosted by Tomcat webserver.
+Application description can be found in its [README](../log-output/README.md).
 
-The revision of the code for this exercise was `21dba945`.
+The revision of the code for this exercise was `e8ef00d6`.
 
-# How to perform required flow
+## How to perform required flow
 
 Docker images can be found here:
 - docker pull katushka/log-output:1.0

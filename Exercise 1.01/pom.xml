@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.katushka.devopswithkubernetescourse</groupId>
-    <artifactId>Exercise-1.07</artifactId>
+    <artifactId>Exercise-1.01</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
-    <name>Exercise 1.07</name>
+    <name>Exercise 1.01</name>
 
 </project>
