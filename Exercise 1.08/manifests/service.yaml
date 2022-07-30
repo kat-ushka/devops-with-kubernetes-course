@@ -6,7 +6,7 @@ spec:
   type: ClusterIP
   selector:
     app: to-do-project # This is the app as declared in the deployment.
-  ports: # The following will let TCP traffic from port 2345 to port 3000.
+  ports: # The following will let TCP traffic from port 2345 to port 8080.
     - port: 2345
       protocol: TCP
       targetPort: 8080
