@@ -7,7 +7,7 @@ It is deployed in Tomcat webserver. Tomcat http port can be de set through CATAL
 
 In order to perform this exercise I implemented manifests files as follows:
 
-[deployment.yaml](Exercise 1.08/manifests/deployment.yaml)
+[deployment.yaml](./manifests/deployment.yaml)
 ```yaml
 ---
 apiVersion: apps/v1
@@ -29,7 +29,7 @@ spec:
           image: "katushka/to-do-project:0.5"
           name: to-do-project
 ```
-[service.yaml](Exercise 1.08/manifests/service.yaml)
+[service.yaml](./manifests/service.yaml)
 ```yaml
 apiVersion: v1
 kind: Service
@@ -44,7 +44,7 @@ spec:
       protocol: TCP
       targetPort: 8080
 ```
-[ingress.yaml](Exercise 1.08/manifests/service.yaml)
+[ingress.yaml](./manifests/service.yaml)
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
