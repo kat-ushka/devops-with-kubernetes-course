@@ -1,6 +1,6 @@
 # Exercise 1.08: Project v0.5
 
-# Exercise realization description
+## Exercise realization description
 
 Application *to-do-project* is a JAX-RS webapp which serves simple GET request.   
 It is deployed in Tomcat webserver. Tomcat http port can be de set through CATALINA_HTTP_PORT env property. 
@@ -63,7 +63,7 @@ spec:
                   number: 2345
 
 ```
-# How to perform required flow
+## How to perform required flow
 
 Docker images can be found here:
 - docker pull katushka/to-do-project:0.5
