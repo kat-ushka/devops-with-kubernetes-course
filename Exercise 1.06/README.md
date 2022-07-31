@@ -2,8 +2,8 @@
 
 ## Exercise realization description
 
-Application description can be found in its [README](../to-do-project/README.md).
-In order to perform this exercise I implemented new service manifest file as follows:
+Application description can be found in its [README](../to-do-project/README.md).  
+In order to perform this exercise I implemented new service manifest file as follows:  
 
 [service.yaml](./manifests/service.yaml)
 ```yaml

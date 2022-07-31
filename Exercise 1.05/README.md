@@ -2,8 +2,8 @@ Exercise 1.05: Project v0.3
 
 ## Exercise realization description
 
-Application description can be found in its [README](../to-do-project/README.md).
-For this exercise `com.github.katushka.devopswithkubernetescourse.todoproject.web.RandomResponseController` was added to serve simple get request.
+Application description can be found in its [README](../to-do-project/README.md).  
+For this exercise `com.github.katushka.devopswithkubernetescourse.todoproject.web.RandomResponseController` was added to serve simple get request.  
 
 The revision of the code for this exercise was `8ebefec2`.
 

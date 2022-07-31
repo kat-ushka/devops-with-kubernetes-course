@@ -2,12 +2,12 @@
 
 ## Exercise realization description
 
-Application description can be found in its [README](../log-output/README.md).
+Application description can be found in its [README](../log-output/README.md).  
 
-The revision of the code for this exercise was `871822ff`.
+The revision of the code for this exercise was `871822ff`.  
 
 
-In order to perform this exercise I implemented manifest file as follows:
+In order to perform this exercise I implemented manifest file as follows:  
 
 [deployment.yaml](./manifests/deployment.yaml)
 ```yaml
