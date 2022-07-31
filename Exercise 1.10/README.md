@@ -2,7 +2,7 @@
 
 # Exercise realization description
 
-Log Output Application description can be found in its [README](../log-output/README.md).
+Log Output Application description can be found in its [README](../log-output/README.md).  
 Timestamp Generator Application description can be found in its [README](../timestamp-generator/README.md).
 
 Code revision for this exercise was `dbff412e`.
