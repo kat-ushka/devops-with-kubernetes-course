@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: to-do-project-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: to-do-project
+  template:
+    metadata:
+      labels:
+        app: to-do-project
+    spec:
+      containers:
+        -
+          image: "katushka/to-do-project:0.3"
+          name: to-do-project
