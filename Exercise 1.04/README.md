@@ -1,4 +1,4 @@
-Exercise 1.04: Project v0.2
+# Exercise 1.04: Project v0.2
 
 ## Exercise realization description
 
