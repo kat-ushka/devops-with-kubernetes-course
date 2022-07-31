@@ -1,0 +1,9 @@
+version: '1.0'
+
+services:
+  server:
+    image: katushka/log-output:1.1
+    container_name: log-output
+    build:
+      context: ../log-output
+      dockerfile: Dockerfile

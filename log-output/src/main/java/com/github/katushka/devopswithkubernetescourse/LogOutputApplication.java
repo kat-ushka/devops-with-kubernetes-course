@@ -1,10 +1,13 @@
 package com.github.katushka.devopswithkubernetescourse;
 
+import com.github.katushka.devopswithkubernetescourse.resource.GeneratedStringResource;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,15 +17,25 @@ import java.util.concurrent.TimeUnit;
 public class LogOutputApplication extends Application {
 
     private final Logger logger;
-    private final String randomString = UUID.randomUUID().toString();
+
+    private final GeneratedStringResource service;
 
     public LogOutputApplication() {
         logger = LogManager.getLogger(getClass());
+        service = new GeneratedStringResource();
 
         final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
         executor.scheduleAtFixedRate(() -> {
-            logger.atDebug().log(randomString);
+            final String currentCode = service.getCode();
+            logger.atDebug().log(currentCode);
         }, 0, 5, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Set<Object> getSingletons() {
+        Set<Object> singletons = new HashSet<>(super.getSingletons());
+        singletons.add(service);
+        return singletons;
     }
 }
