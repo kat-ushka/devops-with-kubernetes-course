@@ -4,7 +4,7 @@
 
 Application description can be found in its [README](../log-output/README.md).
 
-The revision of the code for this exercise was `ec911503`.
+The revision of the code for this exercise was `f77d7bdd`.
 
 ## How to perform required flow
 
