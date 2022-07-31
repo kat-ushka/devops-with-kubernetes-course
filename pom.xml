@@ -20,6 +20,7 @@
         <module>Exercise 1.10</module>
         <module>to-do-project</module>
         <module>log-output</module>
+        <module>ping-pong</module>
     </modules>
 
 </project>

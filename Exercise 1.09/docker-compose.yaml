@@ -1,14 +1,12 @@
 version: '1.0'
 services:
   log-output:
-    image: katushka/log-output:2.4
+    image: katushka/log-output:1.2
     build:
-      context: .
-      target: log-output
-      dockerfile: log-output/Dockerfile
+      context: ../log-output
+      dockerfile: Dockerfile
   ping-pong:
-    image: katushka/ping-pong:1.1
+    image: katushka/ping-pong:1.0
     build:
-      context: .
-      target: ping-pong
-      dockerfile: ping-pong/Dockerfile
+      context: ../ping-pong
+      dockerfile: Dockerfile
