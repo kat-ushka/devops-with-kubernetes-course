@@ -7,28 +7,6 @@ It is deployed in Tomcat webserver. Tomcat http port can be de set through CATAL
 
 In order to perform this exercise I implemented manifests files as follows:
 
-[deployment.yaml](./manifests/deployment.yaml)
-```yaml
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: to-do-project-dep
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: to-do-project
-  template:
-    metadata:
-      labels:
-        app: to-do-project
-    spec:
-      containers:
-        -
-          image: "katushka/to-do-project:0.5"
-          name: to-do-project
-```
 [service.yaml](./manifests/service.yaml)
 ```yaml
 apiVersion: v1
@@ -65,19 +43,17 @@ spec:
 ```
 ## How to perform required flow
 
-Docker images can be found here:
-- docker pull katushka/to-do-project:0.5
+Docker image can be found here:
+- docker pull katushka/to-do-project:0.3  
+  There were no changes to the code or deployment, so the image is the same as for the Exercise 1.05.
 
 To perform exercise flow I did next steps:
 
-0. Code revision is 85b61eef6762894c5b0e758381feffbae62aff65.
 1. Opened shell and moved to this folder.
-2. Created docker image with running docker-compose with command:  
-    `docker-compose build`
-3. Pushed docker image to Docker Hub with command:  
-    `docker image push katushka/to-do-project:0.5`
-4. Started kubernetes cluster with command:  
-    `k3d cluster create -p 8081:80@loadbalancer --agents 2`
-5. Applied configs with command:  
+2. Deleted the ingress for log-output application with script:  
+    ```shell
+    kubectl delete -f "../Exercise 1.07/manifests/ingress.yaml"
+    ```
+3. Applied new configs with script:  
    `kubectl apply -f manifests/`  
-6. After the pod was initialized opened http://localhost:8081 to see the response from to-do-project.
+4. Opened url http://localhost:8081 in browser to see the response from to-do-project.
