@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +19,7 @@ public class TimeStampGenerator {
     private final String filepath;
 
     public TimeStampGenerator() {
-        filepath = System.getProperty("filepath", "/usr/src/app/files/timestamp");
+        filepath = Optional.ofNullable(System.getenv("TIME_STAMP_FILEPATH")).orElse("/usr/src/app/files/timestamp");
     }
 
     private void startGenerating() {

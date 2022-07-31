@@ -1,14 +1,12 @@
 version: '1.0'
 services:
   log-output-web:
-    image: katushka/log-output-web:1.0
+    image: katushka/log-output:1.3
     build:
-      context: .
-      target: log-output-web
-      dockerfile: log-output-web/Dockerfile
+      context: ../log-output
+      dockerfile: Dockerfile
   timestamp-generator:
     image: katushka/timestamp-generator:1.0
     build:
-      context: .
-      target: timestamp-generator
-      dockerfile: timestamp-generator/Dockerfile
+      context: ../timestamp-generator
+      dockerfile: Dockerfile

@@ -21,6 +21,7 @@
         <module>to-do-project</module>
         <module>log-output</module>
         <module>ping-pong</module>
+        <module>timestamp-generator</module>
     </modules>
 
 </project>

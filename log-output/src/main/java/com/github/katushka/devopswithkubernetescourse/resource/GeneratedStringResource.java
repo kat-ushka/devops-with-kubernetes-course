@@ -4,22 +4,40 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
+import java.util.Scanner;
 import java.util.UUID;
 
 @Path("/")
+@Singleton
 public class GeneratedStringResource {
 
+    private final Logger logger = LogManager.getLogger(getClass());
+
     private final String randomString = UUID.randomUUID().toString();
-    private Instant lastTimestamp = Instant.now();
+
+    private final String filepath;
+
+    public GeneratedStringResource() {
+        filepath = Optional.ofNullable(System.getenv("TIME_STAMP_FILEPATH")).orElse("/usr/src/app/files/timestamp");
+    }
 
     public String getCode() {
-        while (lastTimestamp.plus(5, ChronoUnit.SECONDS).isBefore(Instant.now())) {
-            lastTimestamp = lastTimestamp.plus(5, ChronoUnit.SECONDS);
+        final File file = new File(filepath);
+        try (Scanner scanner = new Scanner(file)) {
+            if (scanner.hasNextLine()) {
+                return scanner.nextLine() + " " + randomString;
+            }
+        } catch (IOException e) {
+            logger.atError().log(e.getMessage(), e);
         }
-        return lastTimestamp.toString() + " " + randomString;
+
+        return "Failed to get timestamp from " + file.getAbsolutePath();
     }
 
     @GET
