@@ -32,7 +32,7 @@ public class TimeStampGenerator {
                 logger.atDebug().log("Put new timestamp in " + file.getAbsolutePath());
             } catch (IOException e) {
                 logger.atError().log(e.getMessage(), e);
-                throw new RuntimeException(e);
+                throw new RuntimeException(e.getMessage(), e);
             }
         }, 0, 5, TimeUnit.SECONDS);
     }

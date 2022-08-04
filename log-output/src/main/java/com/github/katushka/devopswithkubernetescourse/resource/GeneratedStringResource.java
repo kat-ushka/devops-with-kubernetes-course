@@ -21,23 +21,33 @@ public class GeneratedStringResource {
 
     private final String randomString = UUID.randomUUID().toString();
 
-    private final String filepath;
+    private final String timestampFilepath;
+    private final String pingsFilepath;
 
     public GeneratedStringResource() {
-        filepath = Optional.ofNullable(System.getenv("TIME_STAMP_FILEPATH")).orElse("/usr/src/app/files/timestamp");
+        timestampFilepath = Optional.ofNullable(System.getenv("TIME_STAMP_FILEPATH")).orElse("/usr/src/app/files/timestamp");
+        pingsFilepath = Optional.ofNullable(System.getenv("PINGS_FILEPATH")).orElse("/usr/src/app/files/pings");
     }
 
     public String getCode() {
-        final File file = new File(filepath);
+        String response = readFile(timestampFilepath) + "      " + randomString;
+        response += "\n";
+        response += "Ping / Pongs: " + readFile(pingsFilepath);
+        return response;
+    }
+
+    private String readFile(String filePath) {
+        final File file = new File(filePath);
         try (Scanner scanner = new Scanner(file)) {
             if (scanner.hasNextLine()) {
-                return scanner.nextLine() + " " + randomString;
+                return scanner.nextLine();
             }
         } catch (IOException e) {
             logger.atError().log(e.getMessage(), e);
+            throw new RuntimeException("Failed to read "
+                    + file.getAbsolutePath() + ". Exception is: " + e.getMessage(), e);
         }
-
-        return "Failed to get timestamp from " + file.getAbsolutePath();
+        return "empty";
     }
 
     @GET
