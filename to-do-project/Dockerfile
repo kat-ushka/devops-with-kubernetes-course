@@ -17,6 +17,6 @@ COPY src/main/tomcat/setenv.sh bin/
 # Replaces port=8080 with port=${port.http.nonssl} in server.xml
 RUN sed -i "s/port=\"[0-9]\+\" protocol=\"HTTP\/1.1\"/port=\"\${port.http.nonssl}\" protocol=\"HTTP\/1.1\"/" conf/server.xml
 
-COPY --from=build /usr/src/app/target/to-do-project.war webapps/ROOT.war
+COPY --from=build /usr/src/app/target/to-do-project.war webapps/to-do.war
 
 CMD ["catalina.sh", "run"]

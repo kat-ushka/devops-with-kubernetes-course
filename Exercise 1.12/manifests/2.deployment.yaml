@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: to-do-project-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: to-do-project
+  template:
+    metadata:
+      labels:
+        app: to-do-project
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
+      containers:
+        -
+          image: "katushka/to-do-project:0.6"
+          name: to-do-project
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/src/app/local_files/images
+          env:
+            - name: UPLOAD_LOCATION
+              value: "/usr/src/app/local_files/images/to-do-today.jpg"
