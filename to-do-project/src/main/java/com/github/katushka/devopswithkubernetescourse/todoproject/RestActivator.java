@@ -7,11 +7,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-@ApplicationPath("/*")
-public class ToDoProjectApplication extends Application {
+@ApplicationPath("/api")
+public class RestActivator extends Application {
 
-    public ToDoProjectApplication() {
-        Logger logger = LogManager.getLogger(ToDoProjectApplication.class);
+    public RestActivator() {
+        Logger logger = LogManager.getLogger(RestActivator.class);
         final Optional<String> port = Optional.ofNullable(System.getenv("CATALINA_HTTP_PORT"));
         logger.atDebug().log("Server started in port " + port.orElse("8080"));
     }
