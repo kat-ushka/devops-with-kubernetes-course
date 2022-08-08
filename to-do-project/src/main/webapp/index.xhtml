@@ -2,18 +2,37 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 <f:view>
     <h:head>
         <title>It's To-Do time!</title>
+        <h:outputStylesheet library="css" name="style.css"/>
     </h:head>
     <h:body>
-        <h:form prependId="false">
-            <h:graphicImage url="#{image.location}"/>
-            <br/>
-            <p id="message">#{hello.message}</p>
-        </h:form>
+        <div class="main">
+            <h:form prependId="false">
+                <h:graphicImage url="#{image.location}" styleClass="image"/>
+                <p/>
+                <h:outputLabel for="todo" value="Let's make some ToDo!"/>
+                <p/>
+                <h:inputTextarea id="todo" value="#{toDo.text}" tabindex="0" styleClass="textarea">
+                    <f:validator validatorId="toDoValidator" />
+                </h:inputTextarea>
+                <p/>
+                <h:message for="todo" style="color:navy"/>
+                <p/>
+                <h:commandButton value="Create ToDo" tabindex="1" action="#{toDo.save}"/>
+                <p/>
+                <ul class="list">
+                    <ui:repeat value="#{toDoCatalog.toDoList}" var="toDoEl">
+                        <li>
+                            <h:link value="#{toDoEl.text}" outcome="toDo"/>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </h:form>
+        </div>
     </h:body>
 </f:view>
 </html>

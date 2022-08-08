@@ -1,0 +1,27 @@
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.image {
+    width: 400px;
+    height: 400px;
+}
+
+.textarea {
+    resize: vertical;
+    width: 400px;
+}
+
+.list {
+    text-align: left;
+}

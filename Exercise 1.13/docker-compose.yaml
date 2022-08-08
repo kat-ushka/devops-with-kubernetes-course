@@ -1,0 +1,9 @@
+version: '1.0'
+
+services:
+  server:
+    image: katushka/to-do-project:0.7
+    container_name: to-do-project
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile

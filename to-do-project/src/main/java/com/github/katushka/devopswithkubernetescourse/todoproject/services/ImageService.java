@@ -45,7 +45,7 @@ public class ImageService {
         if (Files.size(path) == 0
                 || Files.getLastModifiedTime(path).toInstant().isBefore(Instant.now().truncatedTo(ChronoUnit.DAYS))) {
             // 200 is a size of square image
-            try(InputStream in = new URL("https://picsum.photos/200").openStream()){
+            try(InputStream in = new URL("https://picsum.photos/400").openStream()){
                 Files.copy(in, path, StandardCopyOption.REPLACE_EXISTING);
                 logger.atDebug().log("Image is updated");
             }
