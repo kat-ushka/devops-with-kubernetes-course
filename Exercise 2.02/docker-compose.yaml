@@ -1,0 +1,15 @@
+version: '1.0'
+
+services:
+  api:
+    image: katushka/to-do-api:1.0
+    container_name: to-do-api
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile.api
+  web:
+    image: katushka/to-do-web:1.0
+    container_name: to-do-web
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile.web

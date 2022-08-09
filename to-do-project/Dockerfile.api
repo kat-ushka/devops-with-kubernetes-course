@@ -1,0 +1,24 @@
+FROM maven:3.8.6-openjdk-18 AS build
+WORKDIR /usr/src/app
+
+COPY pom.xml pom.xml
+COPY to-do-common to-do-common
+COPY to-do-api to-do-api
+COPY to-do-web to-do-web
+
+RUN mvn clean package -pl to-do-api -am
+
+FROM tomcat:10.0.23-jdk17 AS to-do-project
+
+WORKDIR /usr/local/tomcat/
+
+# Some changes to tomcat instalation
+# Adds a setenv.sh script that calculates and adds CATALINA_HTTP_PORT to JAVA_OPTS on startup.
+# Creating setenv.sh script is a method that is recommended for setting JAVA_OPTS in tomcat
+COPY /tomcat/setenv.sh bin/
+# Replaces port=8080 with port=${port.http.nonssl} in server.xml
+RUN sed -i "s/port=\"[0-9]\+\" protocol=\"HTTP\/1.1\"/port=\"\${port.http.nonssl}\" protocol=\"HTTP\/1.1\"/" conf/server.xml
+
+COPY --from=build /usr/src/app/to-do-api/target/to-do-api.war webapps/to-do-api.war
+
+CMD ["catalina.sh", "run"]

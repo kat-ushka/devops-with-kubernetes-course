@@ -1,0 +1,16 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: to-do-web-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /to-do
+            pathType: Prefix
+            backend:
+              service:
+                name: to-do-web-svc
+                port:
+                  name: http
