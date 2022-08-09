@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.katushka.devopswithkubernetescourse</groupId>
     <artifactId>log-output</artifactId>
-    <version>1.4</version>
+    <version>1.6</version>
     <name>Log Output Webapp</name>
     <packaging>war</packaging>
 
