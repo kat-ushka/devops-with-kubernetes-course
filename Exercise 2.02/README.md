@@ -10,7 +10,7 @@ Code revision for this exercise was `9d5c4197`.
 In order to perform this exercise I implemented deployment manifest as follows:
 
 [persistentvolume.yaml](./manifests/0.persistentvolume.yaml)
-```shell
+```yaml
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -36,7 +36,7 @@ spec:
 
 ```
 [persistentvolumeclaim.yaml](./manifests/1.persistentvolumeclaim.yaml)
-```shell
+```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -50,7 +50,7 @@ spec:
       storage: 1Gi
 ```
 [service.yaml](./manifests/2.service.yaml)
-```shell
+```yaml
 ---
 apiVersion: v1
 kind: Service
@@ -83,7 +83,7 @@ spec:
 
 ```
 [deployment.yaml](./manifests/3.deployment.yaml)
-```shell
+```yaml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -137,7 +137,7 @@ spec:
 
 ```
 [ingress.yaml](./manifests/4.ingress.yaml)
-```shell
+```yaml
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -176,7 +176,7 @@ To perform exercise flow I did next steps:
 4. Moved to the current exercise folder with the script:
     ```shell
     cd ..
-    cd cd Exercise\ 2.02
+    cd Exercise\ 2.02
     ```
 5. Created a folder for persistent volume (it was deleted in previous exercise):
    ```shell

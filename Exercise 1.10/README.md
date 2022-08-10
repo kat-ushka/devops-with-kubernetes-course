@@ -10,7 +10,7 @@ Code revision for this exercise was `dbff412e`.
 In order to perform this exercise I implemented deployment manifest as follows:
 
 [deployment.yaml](./manifests/deployment.yaml)
-```shell
+```yaml
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -10,7 +10,7 @@ Code revision for this exercise was `66fb88fc`.
 The only change in manifests was new version of docker image in deployment.yaml:
 
 [deployment.yaml](./manifests/2.deployment.yaml)
-```shell
+```yaml
 ---
 apiVersion: apps/v1
 kind: Deployment

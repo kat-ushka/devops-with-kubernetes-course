@@ -16,7 +16,7 @@ Code revision for this exercise was `53808ec0`.
 In order to perform this exercise I implemented deployment manifest as follows:
 
 [deployment.yaml](./manifests/2.deployment.yaml)
-```shell
+```yaml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -79,7 +79,7 @@ spec:
 
 ```
 [service.yaml](./manifests/1.service.yaml)
-```shell
+```yaml
 ---
 apiVersion: v1
 kind: Service
@@ -112,7 +112,7 @@ spec:
 
 ```
 [ingress.yaml](./manifests/3.ingress.yaml)
-```shell
+```yaml
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -163,7 +163,7 @@ To perform exercise flow I did next steps:
 5. Moved to the current exercise folder with the script:
     ```shell
     cd ..
-    cd cd Exercise\ 2.01
+    cd Exercise\ 2.01
     ```
 6. Created docker images by running docker-compose with script:
     ```shell

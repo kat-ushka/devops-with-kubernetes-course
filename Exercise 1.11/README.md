@@ -11,7 +11,7 @@ Code revision for this exercise was `0e1dca1a`.
 In order to perform this exercise I implemented deployment manifest as follows:
 
 [persistentvolume.yaml](./manifests/0.persistentvolume.yaml)
-```shell
+```yaml
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -36,7 +36,7 @@ spec:
                 - k3d-k3s-default-agent-0
 ```
 [persistentvolumeclaim.yaml](./manifests/1.persistentvolumeclaim.yaml)
-```shell
+```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -50,7 +50,7 @@ spec:
       storage: 1Gi
 ```
 [deployment.yaml](./manifests/2.deployment.yaml)
-```shell
+```yaml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -121,7 +121,7 @@ spec:
 
 ```
 [service.yaml](./manifests/3.service.yaml)
-```shell
+```yaml
 ---
 apiVersion: v1
 kind: Service
@@ -153,7 +153,7 @@ spec:
       name: http
 ```
 [ingress.yaml](./manifests/4.ingress.yaml)
-```shell
+```yaml
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
