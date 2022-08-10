@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
@@ -32,15 +33,15 @@ public class GeneratedStringResource {
     public GeneratedStringResource() {
         timestampFilepath = Optional.ofNullable(System.getenv("TIME_STAMP_FILEPATH")).orElse("/usr/src/app/files/timestamp");
         logger.atDebug().log("timestampFilepath = {}", timestampFilepath);
-        pingPongUrl = Optional.ofNullable(System.getenv("PINGS_URL")).orElse("http://pingpong-svc/counter");
+        pingPongUrl = Optional.ofNullable(System.getenv("PINGS_URL")).orElse("http://localhost:8080/pingpong/counter");
         logger.atDebug().log("pingPongUrl = {}", pingPongUrl);
     }
 
     public String getCode() {
-        String response = readFile(timestampFilepath) + "      " + randomString;
-        response += "\n";
-        response += "Ping / Pongs: " + getPingPongsCount();
-        return response;
+        return MessageFormat.format(
+                "{0}\n{1}\t{2}\nPing / Pongs: {3}",
+                Optional.ofNullable(System.getenv("MESSAGE")).orElse("No message"),
+                readFile(timestampFilepath), randomString, getPingPongsCount());
     }
 
     private int getPingPongsCount() {
