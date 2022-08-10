@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: to-do-project
+  name: to-do-api-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: to-do-api
+  template:
+    metadata:
+      labels:
+        app: to-do-api
+    spec:
+      containers:
+        - image: "katushka/to-do-api:1.0"
+          name: to-do-api
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: to-do-project
+  name: to-do-web-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: to-do-web
+  template:
+    metadata:
+      labels:
+        app: to-do-web
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
+      containers:
+        -
+          image: "katushka/to-do-web:1.0"
+          name: to-do-project
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/src/app/local_files/images
+          env:
+            - name: UPLOAD_LOCATION
+              value: "/usr/src/app/local_files/images/to-do-today.jpg"
+            - name: TODO_API_URI
+              value: "http://to-do-api-svc:2345/to-do-api/api/todos"
