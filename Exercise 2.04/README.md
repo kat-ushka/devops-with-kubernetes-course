@@ -197,4 +197,8 @@ To perform exercise flow I did next steps:
     ```shell
     kubectl apply -f manifests/
     ```  
-6. After the pod was initialized opened http://localhost:8081/to-do and added some todos ti check that everything still works.
+6. Checked that new pods were created in a new namespace with the script:
+    ```shell
+    kubectl get pods -n to-do-project
+    ```
+7. After the pod was initialized opened http://localhost:8081/to-do and added some todos ti check that everything still works.
