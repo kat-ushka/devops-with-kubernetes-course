@@ -1,10 +1,15 @@
 # Exercise 1.03: Declarative approach
 
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
 ## Exercise realization description
 
 Application description can be found in its [README](../log-output/README.md).  
 
-The revision of the code for this exercise was `871822ff`.  
+The revision of the code for this exercise is tagged with `Exercise_1.03`.
 
 
 In order to perform this exercise I implemented manifest file as follows:  
@@ -40,20 +45,29 @@ Docker images can be found here:
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to this folder.
-2. Deleted previous deployment with command:  
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_1.03`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_1.03
+    ```
+3. Moved to the exercise folder:
+    ```shell
+    cd Exercise\ 1.03
+    ```
+4. Deleted previous deployment with command:  
     ```shell
     kubectl delete deployment log-output-dep
    ```
-3. Applied new deployment with manifest:  
+5. Applied new deployment with manifest:  
     ```shell
     kubectl apply -f manifests                     
    ``` 
-4. After the pod had been initialized checked its name with command:
+6. After the pod had been initialized checked its name with command:
    ```shell
     kubectl get pods
    ```
-   Got log-output-dep-6dcf4cdd66-kfs2g as created pod name and got it logs with command:
+7. Got log-output-dep-6dcf4cdd66-kfs2g as created pod name and got it logs with command:
    ```shell
     kubectl logs log-output-dep-6dcf4cdd66-kfs2g
    ```

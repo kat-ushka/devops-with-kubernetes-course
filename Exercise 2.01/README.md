@@ -1,6 +1,11 @@
 # Exercise 2.01: Connecting pods
 
-# Exercise realization description
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
+## Exercise realization description
 
 Log Output Application description can be found in its [README](../log-output/README.md).  
 Timestamp Generator Application description can be found in its [README](../timestamp-generator/README.md).
@@ -11,7 +16,7 @@ Also, a new environment variable `PINGS_URL` was introduced in Log Output Applic
 accessible from the other pod should be put.
 No changes were made to Timestamp Generator Application, and it still outputs timestamps to the shared local file.
 
-Code revision for this exercise was `53808ec0`.
+The revision of the code for this exercise is tagged with `Exercise_2.01`.
 
 In order to perform this exercise I implemented deployment manifest as follows:
 
@@ -138,7 +143,8 @@ spec:
                   name: http
 
 ```
-# How to perform required flow
+
+## How to perform required flow
 
 Docker images can be found here:
 - docker pull katushka/log-output:1.6
@@ -147,36 +153,41 @@ Docker images can be found here:
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to the root project folder.  
-2. Moved to the folder of the previous log output application exercise (Exercise 1.11) with script:
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_2.01`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_2.01
+    ```
+3. Moved to the folder of the previous log output application exercise (Exercise 1.11) with script:
     ```shell
     cd Exercise\ 1.11
     ```
-3. Deleted previous artifacts with script:
+4. Deleted previous artifacts with script:
     ```shell
     kubectl delete -f manifests
     ```
-4. Deleted shared folder to be sure that it was not used anymore:
+5. Deleted shared folder to be sure that it was not used anymore:
     ```shell
     docker exec k3d-k3s-default-agent-0 rm -rf /tmp/kube
     ```
-5. Moved to the current exercise folder with the script:
+6. Moved to the current exercise folder with the script:
     ```shell
     cd ..
     cd Exercise\ 2.01
     ```
-6. Created docker images by running docker-compose with script:
+7. Created docker images by running docker-compose with script:
     ```shell
     docker-compose build
     ```
-7. Pushed new docker images to Docker Hub with scripts (timestamp-generator:1.1 was already there):
+8. Pushed new docker images to Docker Hub with scripts (timestamp-generator:1.1 was already there):
     ```shell
     docker image push katushka/log-output:1.6
     docker image push katushka/ping-pong:1.4
     ```
-8. Applied configs with script:
+9. Applied configs with script:
     ```shell
     kubectl apply -f manifests/
     ```  
-9. After the pod was initialized opened http://localhost:8081 to see the generated string with 0 ping-pongs.
-   Then visited http://localhost:8081/pingpong to increase the number of ping-pongs and renewed http://localhost:8081 to see an update.
+10. After the pod was initialized opened http://localhost:8081 to see the generated string with 0 ping-pongs.
+    Then visited http://localhost:8081/pingpong to increase the number of ping-pongs and renewed http://localhost:8081 to see an update.

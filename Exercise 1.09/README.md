@@ -1,11 +1,16 @@
 # Exercise 1.09: More services
 
-# Exercise realization description
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
+## Exercise realization description
 
 Log Output Application description can be found in its [README](../log-output/README.md).
 Pingpong Application description can be found in its [README](../ping-pong/README.md).
 
-Code revision for this exercise was `ddd47930`.
+The revision of the code for this exercise is tagged with `Exercise_1.09`.
 
 In order to perform this exercise I implemented new service manifest file as follows:
 
@@ -111,7 +116,8 @@ spec:
                 port:
                   number: 2345
 ```
-# How to perform required flow
+
+## How to perform required flow
 
 Docker images can be found here:
 - docker pull katushka/log-output:1.2
@@ -119,18 +125,23 @@ Docker images can be found here:
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to this folder.
-2. Created docker images by running docker-compose with script:  
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_1.09`:
     ```shell
-    docker-compose build
+    git fetch --all --tags
+    git checkout tags/Exercise_1.09
     ```
-3. Pushed docker images to Docker Hub with scripts:  
+3. Moved to the exercise folder:
+    ```shell
+    cd Exercise\ 1.09
+    ```
+4. Pushed docker images to Docker Hub with scripts:  
     ```shell
     docker image push katushka/log-output:1.2
     docker image push katushka/ping-pong:1.0
     ```
-4. Applied configs with script:  
+5. Applied configs with script:  
     ```shell
     kubectl apply -f manifests/
     ```
-5. After the pod was initialized opened http://localhost:8081 to see the response from log-output and http://localhost:8081/pingpong for response from ping-pong.
+6. After the pod was initialized opened http://localhost:8081 to see the response from log-output and http://localhost:8081/pingpong for response from ping-pong.

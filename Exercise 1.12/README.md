@@ -1,12 +1,17 @@
 # Exercise 1.12: Project v0.6
 
-# Exercise realization description
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
+## Exercise realization description
 
 ToDo Application description can be found in its [README](../to-do-project/README.md).  
 In this exercise I added a UI part displaying a random photo to the project and a new environment variable `UPLOAD_LOCATION` with which it is possible to define an image location.
 If it is not defined a default location `/usr/src/app/files/to-do-today.jpg` would be used.
 
-Code revision for this exercise was `3d8cfb3a`.
+The revision of the code for this exercise is tagged with `Exercise_1.12`.
 
 In order to perform this exercise I implemented deployment manifest as follows:
 
@@ -117,28 +122,37 @@ spec:
 
 ```
 
-# How to perform required flow
+## How to perform required flow
 
 Docker images can be found here:
 - docker pull katushka/to-do-project:0.6
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to this folder.
-2. Created docker images by running docker-compose with script:
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_1.12`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_1.12
+    ```
+3. Moved to the exercise folder:
+    ```shell
+    cd Exercise\ 1.12
+    ```
+4. Created docker images by running docker-compose with script:
     ```shell
     docker-compose build
     ```
-3. Pushed docker images to Docker Hub with scripts:
+5. Pushed docker images to Docker Hub with scripts:
     ```shell
     docker image push katushka/to-do-project:0.6
     ```
-4. Created a directory for volume with script:
+6. Created a directory for volume with script:
     ```shell
     docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube/images
     ```
-5. Applied configs with script:
+7. Applied configs with script:
     ```shell
     kubectl apply -f manifests/
     ```  
-6. After the pod was initialized opened http://localhost:8081/to-do to see the image.
+8. After the pod was initialized opened http://localhost:8081/to-do to see the image.

@@ -1,9 +1,15 @@
 # Exercise 1.08: Project v0.5
 
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
 ## Exercise realization description
 
 Application *to-do-project* is a JAX-RS webapp which serves simple GET request.   
-It is deployed in Tomcat webserver. Tomcat http port can be de set through CATALINA_HTTP_PORT env property. 
+It is deployed in Tomcat webserver. Tomcat http port can be de set through CATALINA_HTTP_PORT env property.
+The revision of the code for this exercise is tagged with `Exercise_1.08`.
 
 In order to perform this exercise I implemented manifests files as follows:
 
@@ -49,11 +55,20 @@ Docker image can be found here:
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to this folder.
-2. Deleted the ingress for log-output application with script:  
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_1.08`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_1.08
+    ```
+3. Moved to the exercise folder:
+    ```shell
+    cd Exercise\ 1.08
+    ```
+4. Deleted the ingress for log-output application with script:  
     ```shell
     kubectl delete -f "../Exercise 1.07/manifests/ingress.yaml"
     ```
-3. Applied new configs with script:  
+5. Applied new configs with script:  
    `kubectl apply -f manifests/`  
-4. Opened url http://localhost:8081 in browser to see the response from to-do-project.
+6. Opened url http://localhost:8081 in browser to see the response from to-do-project.

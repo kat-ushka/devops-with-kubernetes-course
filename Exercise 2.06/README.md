@@ -1,12 +1,17 @@
 # Exercise 2.06: Documentation and ConfigMaps
 
-# Exercise realization description
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
+## Exercise realization description
 
 In this exercise use of a new environment variable `MESSAGE` was added to Log Output Application.
 No code changes besides that were made.
 Configmap logoutput-config-env-file is created form the [env-file.properties](../log-output/configs/env-file.properties).
 
-Code revision for this exercise was `36ed3981`.
+The revision of the code for this exercise is tagged with `Exercise_2.06`.
 
 In order to perform this exercise I implemented deployment manifest as follows:
 
@@ -79,30 +84,38 @@ spec:
           name: ping-pong
 ```
 
-# How to perform required flow
+## How to perform required flow
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to this folder. 
-2. Created docker images by running docker-compose with script:
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_2.06`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_2.06
+    ```  
+3. Moved to the exercise folder:
+    ```shell
+    cd Exercise\ 2.06
+    ```
+4. Created docker images by running docker-compose with script:
     ```shell
     docker-compose build
     ```
-3. Pushed a new docker image to Docker Hub with a script:
+5. Pushed a new docker image to Docker Hub with a script:
     ```shell
     docker image push katushka/log-output:1.7
     ```
-4. Generated configmap from the source file:
+6. Generated configmap from the source file:
     ```shell
     kubectl create configmap logoutput-config-env-file -n log-output --from-env-file=../log-output/configs/env-file.properties
     ```
-5. Checked the generated configmap:
+7. Checked the generated configmap:
     ```shell
     kubectl get configmap logoutput-config-env-file -n log-output -o yaml
     ```
-6. Applied configs with script:
+8. Applied configs with script:
     ```shell
     kubectl apply -f manifests/
     ```  
-7. After the pod was initialized opened http://localhost:8081 to see the generated string with 0 ping-pongs and a new message.
-8. 
+9. After the pod was initialized opened http://localhost:8081 to see the generated string with 0 ping-pongs and a new message.

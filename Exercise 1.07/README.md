@@ -1,12 +1,17 @@
 # Exercise 1.07: External access with Ingress
 
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
 ## Exercise realization description
 
 Application description can be found in its [README](../log-output/README.md).  
 To complete this exercise `com.github.katushka.devopswithkubernetescourse.resource.GeneratedStringResource` endpoint was added.
 It serves simple get request.
 
-The revision of the code for this exercise was `7a6f3e16`.
+The revision of the code for this exercise is tagged with `Exercise_1.07`.
 
 In order to perform this exercise I implemented manifests files as follows:
 
@@ -50,17 +55,26 @@ Docker images can be found here:
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to this folder.
-2. Created docker image with running docker-compose with command:  
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_1.07`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_1.07
+    ```
+3. Moved to the exercise folder:
+    ```shell
+    cd Exercise\ 1.07
+    ```
+4. Created docker image with running docker-compose with command:  
     ```shell
     docker-compose build
     ```
-3. Pushed docker image to Docker Hub with command:
+5. Pushed docker image to Docker Hub with command:
     ```shell
     docker image push katushka/log-output:1.1
     ```
-4. Applied configs with command:  
+6. Applied configs with command:  
     ```shell
     kubectl apply -f manifests/
     ```
-5. After the pod was initialized opened http://localhost:8081 to see the response from log-output.
+7. After the pod was initialized opened http://localhost:8081 to see the response from log-output.

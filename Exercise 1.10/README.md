@@ -1,11 +1,16 @@
 # Exercise 1.10: Even more services
 
-# Exercise realization description
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
+## Exercise realization description
 
 Log Output Application description can be found in its [README](../log-output/README.md).  
 Timestamp Generator Application description can be found in its [README](../timestamp-generator/README.md).
 
-Code revision for this exercise was `dbff412e`.
+The revision of the code for this exercise is tagged with `Exercise_1.10`.
 
 In order to perform this exercise I implemented deployment manifest as follows:
 
@@ -48,8 +53,7 @@ spec:
               value: "/usr/src/app/files/timestamp"
 ```
 
-
-# How to perform required flow
+## How to perform required flow
 
 Docker images can be found here:
 - docker pull katushka/log-output:1.3
@@ -57,18 +61,27 @@ Docker images can be found here:
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to this folder.
-2. Created docker images by running docker-compose with script:
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_1.10`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_1.10
+    ```
+3. Moved to the exercise folder:
+    ```shell
+    cd Exercise\ 1.10
+    ```
+4. Created docker images by running docker-compose with script:
     ```shell
     docker-compose build
     ```
-3. Pushed docker images to Docker Hub with scripts:
+5. Pushed docker images to Docker Hub with scripts:
     ```shell
     docker image push katushka/log-output:1.3
     docker image push katushka/ping-pong:1.0
     ```
-4. Applied configs with script:
+6. Applied configs with script:
     ```shell
     kubectl apply -f manifests/
     ```  
-5. After the pod was initialized opened http://localhost:8081 to see the generated string.
+7. After the pod was initialized opened http://localhost:8081 to see the generated string.

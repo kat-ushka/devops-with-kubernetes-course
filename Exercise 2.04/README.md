@@ -1,11 +1,16 @@
 # Exercise 2.04: Project v1.1
 
-# Exercise realization description
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
+## Exercise realization description
 
 No application code changes were performed in this exercise.
 A new namespace `to-do-project` was created with [0.namespace.yaml](./manifests/0.namespace.yaml).
 
-Code revision for this exercise was `0a34f1de`.
+The revision of the code for this exercise is tagged with `Exercise_2.04`.
 
 In order to perform this exercise I implemented deployment manifest as follows:
 [namespace.yaml](./manifests/0.namespace.yaml)
@@ -171,7 +176,8 @@ spec:
                   name: http
 
 ```
-# How to perform required flow
+
+## How to perform required flow
 
 Docker images can be found here:
 - docker pull katushka/to-do-api:1.0
@@ -179,26 +185,31 @@ Docker images can be found here:
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to the whole project root folder.  
-2. Moved to the folder of the previous ToDo application exercise (Exercise 2.02) with script:
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_2.04`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_2.04
+    ``` 
+3. Moved to the folder of the previous ToDo application exercise (Exercise 2.02) with script:
     ```shell
     cd Exercise\ 2.02
     ```
-3. Deleted previous artifacts with script:
+4. Deleted previous artifacts with script:
     ```shell
     kubectl delete -f manifests
     ```
-4. Moved to the current exercise folder with the script:
+5. Moved to the current exercise folder with the script:
     ```shell
     cd ..
     cd Exercise\ 2.04
     ```
-5. Applied configs with script:
+6. Applied configs with script:
     ```shell
     kubectl apply -f manifests/
     ```  
-6. Checked that new pods were created in a new namespace with the script:
+7. Checked that new pods were created in a new namespace with the script:
     ```shell
     kubectl get pods -n to-do-project
     ```
-7. After the pod was initialized opened http://localhost:8081/to-do and added some todos ti check that everything still works.
+8. After the pod was initialized opened http://localhost:8081/to-do and added some todos ti check that everything still works.

@@ -1,11 +1,16 @@
 # Exercise 2.06: Documentation and ConfigMaps
 
-# Exercise realization description
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
+## Exercise realization description
 
 Just followed a SOPS demo.
 Put scripts here to keep on hand.
 
-# How to perform required flow
+## How to perform required flow
 
 To perform exercise flow I did next steps:
 

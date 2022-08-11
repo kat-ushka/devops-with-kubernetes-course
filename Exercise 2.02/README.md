@@ -1,11 +1,16 @@
 # Exercise 2.02: Project v1.0
 
-# Exercise realization description
+<!-- TOC -->
+* [Exercise realization description](#exercise-realization-description)
+* [How to perform required flow](#how-to-perform-required-flow)
+<!-- TOC -->
+
+## Exercise realization description
 
 ToDo Application description can be found in its [README](../to-do-project/README.md).  
 In this exercise I created 3 submodules: to-do-web, to-do-api, and to-do-common.
 
-Code revision for this exercise was `9d5c4197`.
+The revision of the code for this exercise is tagged with `Exercise_2.02`.
 
 In order to perform this exercise I implemented deployment manifest as follows:
 
@@ -156,7 +161,8 @@ spec:
                   name: http
 
 ```
-# How to perform required flow
+
+## How to perform required flow
 
 Docker images can be found here:
 - docker pull katushka/to-do-api:1.0
@@ -164,35 +170,40 @@ Docker images can be found here:
 
 To perform exercise flow I did next steps:
 
-1. Opened shell and moved to the whole project root folder.  
-2. Moved to the folder of the previous ToDo application exercise (Exercise 1.12) with script:
+1. Opened shell and moved to the project folder.
+2. Checkout tag `Exercise_2.02`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_2.02
+    ```
+3. Moved to the folder of the previous ToDo application exercise (Exercise 1.12) with script:
     ```shell
     cd Exercise\ 1.12
     ```
-3. Deleted previous artifacts with script:
+4. Deleted previous artifacts with script:
     ```shell
     kubectl delete -f manifests
     ```
-4. Moved to the current exercise folder with the script:
+5. Moved to the current exercise folder with the script:
     ```shell
     cd ..
     cd Exercise\ 2.02
     ```
-5. Created a folder for persistent volume (it was deleted in previous exercise):
+6. Created a folder for persistent volume (it was deleted in previous exercise):
    ```shell
     docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube/images
    ```
-6. Created docker images by running docker-compose with script:
+7. Created docker images by running docker-compose with script:
     ```shell
     docker-compose build
     ```
-7. Pushed docker images to Docker Hub with scripts:
+8. Pushed docker images to Docker Hub with scripts:
     ```shell
     docker image push katushka/to-do-api:1.0
     docker image push katushka/to-do-web:1.0
     ```
-8. Applied configs with script:
+9. Applied configs with script:
     ```shell
     kubectl apply -f manifests/
     ```  
-9. After the pod was initialized opened http://localhost:8081/to-do and added some todos.
+10. After the pod was initialized opened http://localhost:8081/to-do and added some todos.
