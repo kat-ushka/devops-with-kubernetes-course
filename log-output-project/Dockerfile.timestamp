@@ -1,0 +1,15 @@
+FROM maven:3.8.6-openjdk-18 AS build
+WORKDIR /usr/src/app
+
+COPY pom.xml pom.xml
+COPY timestamp-generator timestamp-generator
+COPY ping-pong ping-pong
+COPY log-output log-output
+
+RUN mvn clean package -Dmaven.test.skip=true -pl timestamp-generator -am
+
+FROM amd64/eclipse-temurin:17-alpine AS timestamp-generator
+WORKDIR /usr/src/app
+COPY --from=build /usr/src/app/timestamp-generator/target/timestamp-generator-jar-with-dependencies.jar timestamp-generator.jar
+EXPOSE 3000
+CMD ["java","-jar","timestamp-generator.jar"]

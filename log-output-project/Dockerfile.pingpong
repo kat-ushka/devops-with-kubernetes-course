@@ -1,0 +1,14 @@
+FROM maven:3.8.6-openjdk-18 AS build
+WORKDIR /usr/src/app
+
+COPY pom.xml pom.xml
+COPY timestamp-generator timestamp-generator
+COPY ping-pong ping-pong
+COPY log-output log-output
+
+RUN mvn clean package -Dmaven.test.skip=true -pl ping-pong -am
+
+FROM amd64/tomcat:10-jre17-temurin-focal AS ping-pong
+EXPOSE 8080
+COPY --from=build /usr/src/app/ping-pong/target/pingpong.war /usr/local/tomcat/webapps/
+CMD ["catalina.sh", "run"]

@@ -29,3 +29,8 @@ target/
 
 # Maven
 dependency-reduced-pom.xml
+
+# Kubernetes
+secret.yaml
+secret.yml
+key.txt

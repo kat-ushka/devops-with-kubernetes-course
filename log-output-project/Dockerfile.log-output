@@ -1,0 +1,14 @@
+FROM maven:3.8.6-openjdk-18 AS build
+WORKDIR /usr/src/app
+
+COPY pom.xml pom.xml
+COPY timestamp-generator timestamp-generator
+COPY ping-pong ping-pong
+COPY log-output log-output
+
+RUN mvn clean package -Dmaven.test.skip=true -pl log-output -am
+
+FROM amd64/tomcat:10-jre17-temurin-focal AS log-output
+COPY --from=build /usr/src/app/log-output/target/ROOT.war /usr/local/tomcat/webapps/
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
