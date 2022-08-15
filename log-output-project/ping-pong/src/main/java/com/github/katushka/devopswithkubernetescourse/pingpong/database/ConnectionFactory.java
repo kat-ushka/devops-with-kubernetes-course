@@ -25,9 +25,6 @@ public class ConnectionFactory {
         final String dbUserPassword = getCleanedUserPassword();
 
         if (Strings.isNotBlank(dbUrl) && Strings.isNotBlank(dbUser) && Strings.isNotBlank(dbUserPassword)) {
-            logger.atDebug().log("Environment vars:\n\tDB_URL is {},\n\tDB_USER is {},\n\tDB_USER_PASSWORD is {}",
-                    dbUrl, dbUser, dbUserPassword);
-
             dataSource = new BasicDataSource();
             dataSource.setDriver(new Driver());
             dataSource.setUrl(dbUrl);
