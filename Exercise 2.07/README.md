@@ -331,7 +331,7 @@ Assuming you have, k3d, kubectl, age, and sops already installed.
      export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
      sops --decrypt secret.enc.yaml | kubectl apply -f -
      ``` 
-11. Applied all the other manifests:
+11. Applied all the other manifests (remember to change labels of the docker images if you had created you own on the step 4):
      ```shell
      kubectl apply -f manifests
      ```
