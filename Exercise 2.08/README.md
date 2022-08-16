@@ -297,19 +297,32 @@ To perform exercise flow I did next steps:
     docker image push katushka/to-do-api:1.1
     docker image push katushka/to-do-web:1.1
     ```
-5. Used an age key created before to encrypt secret.yaml:
+5. Created a secret.yaml like follows:
+    ```yaml
+    apiVersion: v1
+    kind: Secret
+    metadata:
+     namespace: to-do-project
+     name: postgres-secret-config
+    type: Opaque
+    data:
+     POSTGRES_DB: <base64 database name>
+     POSTGRES_USER: <base64 user name>
+     POSTGRES_PASSWORD: <base64 password>
+    ```
+6. Used an age key created before to encrypt secret.yaml:
     ```shell
     sops --encrypt --age age1rf6mvs2deuyrv34qsl5ftq7tfvs8f9f3d5f4y63hjcpgznyuc42qj6ep8z --encrypted-regex '^(data)$' secret.yaml > secret.enc.yaml
     ```
-6. Created secret config with script:
+7. Created secret config with script:
     ```shell
     sops --decrypt secret.enc.yaml | kubectl apply -f -
     ``` 
-7. Applied other manifests:
+8. Applied other manifests:
     ```shell
     kubectl apply -f manifests
     ```
-8. After the pod was initialized opened http://localhost:8081/to-do and added some todos ti check that everything still works.
+9. Opened http://localhost:8081/to-do and add some todos to check that everything works.
 
 ### How to do from the scratch
 
@@ -334,29 +347,42 @@ Assuming you have, k3d, kubectl, age, and sops already installed.
     docker image push <your docker account>/to-do-api:1.1
     docker image push <your docker account>/to-do-web:1.1
     ```
-5. Create an age key with script:
+5. Create a secret.yaml file like this:
+    ```yaml
+    apiVersion: v1
+    kind: Secret
+    metadata:
+     namespace: to-do-project
+     name: postgres-secret-config
+    type: Opaque
+    data:
+     POSTGRES_DB: <base64 database name>
+     POSTGRES_USER: <base64 user name>
+     POSTGRES_PASSWORD: <base64 password>
+    ```
+6. Create an age key with script:
     ```shell
     age-keygen -o key.txt
     ```
-6. Encrypt secret.yaml config with script:
+7. Encrypt secret.yaml config with script:
     ```shell
     sops --encrypt --age <public key from the previous step> --encrypted-regex '^(data)$' secret.yaml > secret.enc.yaml
     ```
-7. Create a k3d cluster:
+8. Create a k3d cluster:
     ```shell
     k3d cluster create -p 8081:80@loadbalancer
     ```
-8. Create a namespace:
+9. Create a namespace:
    ```shell
    kubectl apply -f manifests/0.namespace.yaml
    ```
-9. Create a secret config:
-    ```shell
-    export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
-    sops --decrypt secret.enc.yaml | kubectl apply -f -
-    ``` 
-10. Applied all the other manifests (remember to change labels of the docker images if you had created you own on the step 4):
+10. Create a secret config:
+     ```shell
+     export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
+     sops --decrypt secret.enc.yaml | kubectl apply -f -
+     ``` 
+11. Applied all the other manifests (remember to change labels of the docker images if you had created you own on the step 4):
      ```shell
      kubectl apply -f manifests
      ```
-11. After the pod was initialized opened http://localhost:8081/to-do and add some todos to check that everything works.
+12. Open http://localhost:8081/to-do and add some todos to check that everything works.
