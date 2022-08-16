@@ -1,12 +1,18 @@
 # Exercise 2.08: Project v1.2
 
 <!-- TOC -->
+* [Exercise description](#exercise-description)
 * [Exercise realization description](#exercise-realization-description)
 * [How to perform required flow](#how-to-perform-required-flow)
   * [Docker images](#docker-images)
   * [Performing exercise-to-exercise flow](#performing-exercise-to-exercise-flow)
   * [How to do from the scratch](#how-to-do-from-the-scratch)
 <!-- TOC -->
+## Exercise description
+
+Create a database and save the todos there.
+
+Use Secrets and/or ConfigMaps to have the backend access the database.
 
 ## Exercise realization description
 
@@ -17,60 +23,8 @@ SQL database interaction was added to the to-do-api module.
 
 A headless service for Postgesql, a Secret with Postgres environment variables and a StatefulSet Postgesql objects were added for kubernetes deployments.
 
-In order to perform this exercise I implemented manifests as follows:
+In order to perform this exercise I implemented manifests as follows (those that were created or changed):
 
-[namespace.yaml](./manifests/0.namespace.yaml)
-```yaml
----
-apiVersion: v1
-kind: Namespace
-metadata:
-   name: to-do-project
-
-```
-[persistentvolume.yaml](./manifests/1.persistentvolume.yaml)
-```yaml
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-   namespace: to-do-project
-   name: image-pv
-spec:
-   storageClassName: manual
-   capacity:
-      storage: 1Gi # Could be e.q. 500Gi. Small amount is to preserve space when testing locally
-   volumeMode: Filesystem # This declares that it will be mounted into pods as a directory
-   accessModes:
-      - ReadWriteOnce
-   local:
-      path: /tmp/kube/images
-   nodeAffinity: ## This is only required for local, it defines which nodes can access it
-      required:
-         nodeSelectorTerms:
-            - matchExpressions:
-                 - key: kubernetes.io/hostname
-                   operator: In
-                   values:
-                      - k3d-k3s-default-agent-0
-
-```
-[persistentvolumeclaim.yaml](./manifests/2.persistentvolumeclaim.yaml)
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-   namespace: to-do-project
-   name: image-claim
-spec:
-   storageClassName: manual
-   accessModes:
-      - ReadWriteOnce
-   resources:
-      requests:
-         storage: 1Gi
-
-```
 [service.yaml](./manifests/3.service.yaml)
 ```yaml
 ---
@@ -89,39 +43,9 @@ spec:
    selector:
       app: postgres-app
 
----
-apiVersion: v1
-kind: Service
-metadata:
-   namespace: to-do-project
-   name: to-do-api-svc
-spec:
-   type: ClusterIP
-   selector:
-      app: to-do-api # This is the app as declared in the deployment.
-   ports: # The following will let TCP traffic from port 2345 to port 8080.
-      - port: 2345
-        protocol: TCP
-        targetPort: 8080
-        name: http
-
----
-apiVersion: v1
-kind: Service
-metadata:
-   namespace: to-do-project
-   name: to-do-web-svc
-spec:
-   type: ClusterIP
-   selector:
-      app: to-do-web # This is the app as declared in the deployment.
-   ports: # The following will let TCP traffic from port 2345 to port 8080.
-      - port: 2345
-        protocol: TCP
-        targetPort: 8080
-        name: http
-
+...
 ```
+
 [statefulset.yaml](./manifests/4.statefulset.yaml)
 ```yaml
 ---
@@ -165,6 +89,7 @@ spec:
                  storage: 100Mi
 
 ```
+
 [deployment.yaml](./manifests/5.deployment.yaml)
 ```yaml
 ---
@@ -245,27 +170,7 @@ spec:
               value: "http://to-do-api-svc:2345/to-do-api/api/todos"
 
 ```
-[ingress.yaml](./manifests/6.ingress.yaml)
-```yaml
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  namespace: to-do-project
-  name: to-do-web-ingress
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /to-do
-            pathType: Prefix
-            backend:
-              service:
-                name: to-do-web-svc
-                port:
-                  name: http
 
-```
 ## How to perform required flow
 
 ### Docker images

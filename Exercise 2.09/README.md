@@ -10,13 +10,14 @@
 <!-- TOC -->
 
 ## Exercise description
+
 Create a CronJob that generates a new todo every day to remind you to do 'Read < URL >'.
 
 Where < URL > is a wikipedia article that was decided by the job randomly. It does not have to be a hyperlink, the user can copy and paste the url from the todo.
 
 https://en.wikipedia.org/wiki/Special:Random responds with a redirect to a random wikipedia page, so you can ask it to provide a random article for you to read. 
 
-TIP: Check location header
+TIP: Check location header.
 
 ## Exercise realization description
 
