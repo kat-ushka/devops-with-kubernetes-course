@@ -1,0 +1,6 @@
+FROM amd64/alpine:latest
+RUN apk add --no-cache bash
+RUN apk add --no-cache curl
+ADD to-do-daily/daily.sh /usr/src/
+RUN chmod +x /usr/src/daily.sh
+CMD ["/usr/src/daily.sh"]

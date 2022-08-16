@@ -1,0 +1,21 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: to-do-project
+  name: to-do-daily
+spec:
+  schedule: "0 6 * * *" # daily at 6 A.M.
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 60 # the job and dependant objects will be deleted 60 seconds after completion
+      template:
+        spec:
+          containers:
+            - name: daily
+              image: katushka/to-do-daily:1.0
+              imagePullPolicy: Always
+              env:
+                - name: TODO_API_URL
+                  value: "http://to-do-api-svc:2345/to-do-api/api/todos"
+          restartPolicy: Never

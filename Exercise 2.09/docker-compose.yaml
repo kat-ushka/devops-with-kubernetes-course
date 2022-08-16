@@ -1,0 +1,8 @@
+version: '1.0'
+services:
+  daily:
+    platform: linux/amd64
+    image: katushka/to-do-daily:1.0
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile.daily
