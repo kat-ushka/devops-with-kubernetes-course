@@ -1,6 +1,7 @@
-# Exercise 2.08: Project v1.2
+# Exercise 2.09: Daily todos
 
 <!-- TOC -->
+* [Exercise description](#exercise-description)
 * [Exercise realization description](#exercise-realization-description)
 * [How to perform required flow](#how-to-perform-required-flow)
   * [Docker images](#docker-images)
@@ -8,11 +9,21 @@
   * [How to do from the scratch](#how-to-do-from-the-scratch)
 <!-- TOC -->
 
+## Exercise description
+Create a CronJob that generates a new todo every day to remind you to do 'Read < URL >'.
+
+Where < URL > is a wikipedia article that was decided by the job randomly. It does not have to be a hyperlink, the user can copy and paste the url from the todo.
+
+https://en.wikipedia.org/wiki/Special:Random responds with a redirect to a random wikipedia page, so you can ask it to provide a random article for you to read. 
+
+TIP: Check location header
+
 ## Exercise realization description
 
 To implement this exercise I created a to-do-daily module in to-do-project.
-It contains only a shell script that uses `curl` to request random wikipedia page and to post a new TODO with to-do-api application.
-With `Dockerfile.daily` a docker image can be build with that script.
+It contains only a shell script that uses `curl` to request random wikipedia page and to post a new TODO with the to-do-api application.
+
+Using [Dockerfile.daily](../to-do-project/Dockerfile.daily) a docker image with that script can be built.
 
 A cronjob object was added to kubernetes manifests folder as follows:
 
@@ -41,6 +52,7 @@ spec:
           restartPolicy: Never
 
 ```
+
 ## How to perform required flow
 
 ### Docker images
@@ -52,6 +64,7 @@ Docker images can be found here:
 - docker pull katushka/to-do-web:1.1
 
 ### Performing exercise-to-exercise flow
+
 To perform exercise flow I did next steps:
 
 1. Opened shell and checkout tag Exercise_2.09:
@@ -88,7 +101,7 @@ Assuming you have, k3d, kubectl, Lens, age, and sops already installed.
     git fetch --all --tags
     git checkout tags/Exercise_2.09
     ```
-2. Perform the flow of Exercise_2.09 as it is described in [README.md](../Exercise%202.08/README.md) except the very first step.
+2. Perform the flow of Exercise_2.08 as it is described in [README.md](../Exercise%202.08/README.md) except the very first step.
 3. Move to the folder of this exercise:
     ```shell
     cd ../Exercise\ 2.09
