@@ -1,0 +1,22 @@
+version: '1.0'
+services:
+  db:
+    platform: linux/amd64
+    image: katushka/to-do-db:1.0
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile.db
+  api:
+    platform: linux/amd64
+    image: katushka/to-do-api:1.1
+    container_name: to-do-api
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile.api
+  web:
+    platform: linux/amd64
+    image: katushka/to-do-web:1.1
+    container_name: to-do-web
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile.web

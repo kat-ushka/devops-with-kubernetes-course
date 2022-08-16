@@ -6,9 +6,9 @@ COPY to-do-common to-do-common
 COPY to-do-api to-do-api
 COPY to-do-web to-do-web
 
-RUN mvn clean package -pl to-do-web -am
+RUN mvn clean package -Dmaven.test.skip=true -pl to-do-web -am
 
-FROM tomcat:10.0.23-jdk17 AS to-do-project
+FROM amd64/tomcat:10-jre17-temurin-focal AS to-do-web
 
 WORKDIR /usr/local/tomcat/
 

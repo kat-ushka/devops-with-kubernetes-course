@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>com.github.katushka.devopswithkubernetescourse</groupId>
                 <artifactId>to-do-common</artifactId>
-                <version>1.0</version>
+                <version>1.1</version>
             </dependency>
 
             <dependency>

@@ -1,41 +1,44 @@
 package com.github.katushka.devopswithkubernetescourse.todobackend.resources;
 
 import com.github.katushka.devopswithkubernetescourse.todoapi.beans.ToDo;
-import jakarta.inject.Singleton;
+import com.github.katushka.devopswithkubernetescourse.todobackend.database.ToDos;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
-@Singleton
 @Path("/todos")
 public class ToDoResource {
 
     private final Logger logger = LogManager.getLogger(getClass());
-    private final List<ToDo> toDoList = new ArrayList<>();
+
+    @Inject
+    private ToDos toDoList;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ToDo> getToDos() {
-        return Collections.unmodifiableList(toDoList);
+        try {
+            return toDoList.getToDos();
+        } catch (SQLException e) {
+            logger.atError().withThrowable(e).log("Failed to get ToDo list due to exception: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
-    public String createToDo(String toDoText) {
-        ToDo toDo = new ToDo();
-        toDo.setId(UUID.randomUUID().toString());
-        toDo.setText(toDoText);
-        toDoList.add(toDo);
-
-        logger.atDebug().log("{} todos in the list.", toDoList.size());
-
-        return toDo.getId();
+    public void createToDo(String toDoText) {
+        try {
+            toDoList.createToDo(toDoText);
+        } catch (SQLException e) {
+            logger.atError().withThrowable(e).log("Failed to create ToDo due to exception: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

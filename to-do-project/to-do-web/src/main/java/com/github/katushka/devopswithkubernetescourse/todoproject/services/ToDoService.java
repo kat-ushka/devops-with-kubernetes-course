@@ -50,8 +50,7 @@ public class ToDoService {
     public void createToDo(String text) {
         WebTarget target = getWebTarget();
         try (Response response = target.request().post(Entity.entity(text, MediaType.APPLICATION_JSON))) {
-            String newId = response.readEntity(String.class);
-            logger.atDebug().log("A new ToDo {} was added", newId);
+            response.readEntity(String.class);
         }
     }
 }
