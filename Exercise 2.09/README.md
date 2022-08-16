@@ -12,6 +12,7 @@
 
 To implement this exercise I created a to-do-daily module in to-do-project.
 It contains only a shell script that uses `curl` to request random wikipedia page and to post a new TODO with to-do-api application.
+With `Dockerfile.daily` a docker image can be build with that script.
 
 A cronjob object was added to kubernetes manifests folder as follows:
 
