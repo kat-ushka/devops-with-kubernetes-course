@@ -7,7 +7,6 @@
   * [Docker images](#docker-images)
   * [Performing exercise-to-exercise flow](#performing-exercise-to-exercise-flow)
   * [How to do from the scratch](#how-to-do-from-the-scratch)
-  * [How to do from the scratch](#how-to-do-from-the-scratch)
 <!-- TOC -->
 
 ## Exercise description
