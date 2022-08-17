@@ -1,6 +1,5 @@
 package com.github.katushka.devopswithkubernetescourse.todoproject.beans;
 
-import jakarta.annotation.ManagedBean;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -12,7 +11,6 @@ import jakarta.faces.validator.ValidatorException;
 
 import java.io.Serializable;
 
-@ManagedBean
 @SessionScoped
 @FacesValidator("toDoValidator")
 public class ToDoValidator implements Validator<String>, Serializable {

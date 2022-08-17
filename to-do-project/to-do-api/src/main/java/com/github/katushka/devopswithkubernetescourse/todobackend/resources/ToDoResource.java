@@ -1,15 +1,12 @@
 package com.github.katushka.devopswithkubernetescourse.todobackend.resources;
 
-import com.github.katushka.devopswithkubernetescourse.todoapi.beans.ToDo;
 import com.github.katushka.devopswithkubernetescourse.todobackend.database.ToDos;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.sql.SQLException;
-import java.util.List;
 
 @Path("/todos")
 public class ToDoResource {
@@ -20,25 +17,25 @@ public class ToDoResource {
     private ToDos toDoList;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<ToDo> getToDos() {
+    public Response getToDos() {
         try {
-            return toDoList.getToDos();
-        } catch (SQLException e) {
+            return Response.ok().entity(toDoList.getToDos()).build();
+        } catch (Exception e) {
             logger.atError().withThrowable(e).log("Failed to get ToDo list due to exception: {}", e.getMessage());
-            throw new RuntimeException(e);
+            return Response.serverError().entity(e).build();
         }
     }
 
     @POST
-    @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void createToDo(String toDoText) {
+    public Response createToDo(String toDoText) {
         try {
             toDoList.createToDo(toDoText);
-        } catch (SQLException e) {
+            logger.atDebug().log("A new todo was created\n\t{}", toDoText);
+            return Response.ok().build();
+        } catch (Exception e) {
             logger.atError().withThrowable(e).log("Failed to create ToDo due to exception: {}", e.getMessage());
-            throw new RuntimeException(e);
+            return Response.serverError().entity(e).build();
         }
     }
 }

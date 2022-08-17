@@ -1,7 +1,6 @@
 package com.github.katushka.devopswithkubernetescourse.todoproject.beans;
 
 import com.github.katushka.devopswithkubernetescourse.todoproject.services.ToDoService;
-import jakarta.annotation.ManagedBean;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -9,7 +8,6 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 
 @Named
-@ManagedBean
 @SessionScoped
 public class ToDoText implements Serializable {
 

@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,13 @@ public class ToDos {
     }
 
     public void createToDo(String text) throws SQLException {
+        if (text.isBlank()) {
+            throw new IllegalArgumentException("Can not create empty TODO!");
+        }
+        if (text.length() > 140) {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Can not create TODO with length of {0} ( > 140)!", text.length()));
+        }
         factory.connect(connection -> {
             final String createSql = "INSERT INTO todos (text) VALUES (?)";
 

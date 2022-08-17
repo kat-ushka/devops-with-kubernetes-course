@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: to-do-project
+  name: to-do-api-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: to-do-api
+  template:
+    metadata:
+      labels:
+        app: to-do-api
+    spec:
+      containers:
+        - image: "katushka/to-do-api:1.2"
+          name: to-do-api
+          imagePullPolicy: Always
+          env:
+            - name: DB_HOST
+              value: db-svc
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key: POSTGRES_PASSWORD
+                  optional: false
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key: POSTGRES_USER
+                  optional: false
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key: POSTGRES_DB
+                  optional: false
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: to-do-project
+  name: to-do-web-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: to-do-web
+  template:
+    metadata:
+      labels:
+        app: to-do-web
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
+      containers:
+        - image: "katushka/to-do-web:1.2"
+          imagePullPolicy: Always
+          name: to-do-web
+          volumeMounts:
+            - name: shared-image
+              mountPath: /usr/src/app/local_files/images
+          env:
+            - name: UPLOAD_LOCATION
+              value: "/usr/src/app/local_files/images/to-do-today.jpg"
+            - name: TODO_API_URI
+              value: "http://to-do-api-svc:2345/to-do-api/api/todos"

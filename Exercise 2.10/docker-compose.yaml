@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  api:
+    platform: linux/amd64
+    image: katushka/to-do-api:1.2
+    container_name: to-do-api
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile.api
+  web:
+    platform: linux/amd64
+    image: katushka/to-do-web:1.2
+    container_name: to-do-web
+    build:
+      context: ../to-do-project
+      dockerfile: Dockerfile.web
