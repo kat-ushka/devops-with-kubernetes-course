@@ -1,18 +1,42 @@
 # Exercise 2.02: Project v1.0
 
 <!-- TOC -->
+* [Exercise description](#exercise-description)
 * [Exercise realization description](#exercise-realization-description)
 * [How to perform required flow](#how-to-perform-required-flow)
+  * [Docker images](#docker-images)
+  * [Performing exercise-to-exercise flow](#performing-exercise-to-exercise-flow)
+  * [How to do from the scratch](#how-to-do-from-the-scratch)
 <!-- TOC -->
+
+## Exercise description
+
+Create a new container for the backend of the todo application.
+
+You can use graphql or other solutions if you want.
+
+Use ingress routing to enable access to the backend.
+
+Create a POST /todos endpoint and a GET /todos endpoint in the new service where we can post a new todo and get all of the todos. 
+You can also move the image logic to the new service if it requires backend logic.
+
+The todos can be saved into memory, we'll add database later.
+
+Frontend already has an input field. 
+Connect it into our backend so that inputting data and pressing send will add a new todo into the list.
 
 ## Exercise realization description
 
-ToDo Application description can be found in its [README](../to-do-project/README.md).  
-In this exercise I created 3 submodules: to-do-web, to-do-api, and to-do-common.
+In this exercise I created 3 submodules for the ToDo Application: to-do-web, to-do-api, and to-do-common.
+A new [ToDoResource](../to-do-project/to-do-api/src/main/java/com/github/katushka/devopswithkubernetescourse/todobackend/resources/ToDoResource.java) is added to the to-do-api
+to serve a POST /todos endpoint and a GET /todos endpoint. It saves ToDos in collection in memory.
+
+The image logic stays in to-do-web.
+A [ToDoService](../to-do-project/to-do-web/src/main/java/com/github/katushka/devopswithkubernetescourse/todoproject/services/ToDoService.java) makes requests to the to-do-api /todos endpoints.
 
 The revision of the code for this exercise is tagged with `Exercise_2.02`.
 
-In order to perform this exercise I implemented deployment manifest as follows:
+In order to perform this exercise I implemented kubernetes manifests as follows:
 
 [persistentvolume.yaml](./manifests/0.persistentvolume.yaml)
 ```yaml
@@ -164,11 +188,40 @@ spec:
 
 ## How to perform required flow
 
+### Docker images
+
 Docker images can be found here:
 - docker pull katushka/to-do-api:1.0
 - docker pull katushka/to-do-web:1.0
 
-To perform exercise flow I did next steps:
+### Performing exercise-to-exercise flow
+
+1. Open shell and moved to the project folder.
+2. Move to the folder of the previous ToDo application exercise (Exercise 1.12) with script:
+    ```shell
+    cd Exercise\ 1.12
+    ```
+3. Delete previous artifacts with script:
+    ```shell
+    kubectl delete -f manifests
+    ```
+4. Move to the current exercise folder with the script:
+    ```shell
+    cd ../Exercise\ 2.02
+    ```
+5. Create a folder for persistent volume (it was deleted in previous exercise):
+   ```shell
+    docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube/images
+   ```
+6. Applied configs with script:
+    ```shell
+    kubectl apply -f manifests/
+    ```  
+7. Open http://localhost:8081/to-do in browser and add some todos.
+
+### How to do from the scratch
+
+Assuming you have k3d and kubectl already installed.
 
 1. Opened shell and moved to the project folder.
 2. Checkout tag `Exercise_2.02`:
@@ -176,34 +229,29 @@ To perform exercise flow I did next steps:
     git fetch --all --tags
     git checkout tags/Exercise_2.02
     ```
-3. Moved to the folder of the previous ToDo application exercise (Exercise 1.12) with script:
+3. Moved to the folder of this exercise with script:
     ```shell
-    cd Exercise\ 1.12
-    ```
-4. Deleted previous artifacts with script:
-    ```shell
-    kubectl delete -f manifests
-    ```
-5. Moved to the current exercise folder with the script:
-    ```shell
-    cd ..
     cd Exercise\ 2.02
     ```
-6. Created a folder for persistent volume (it was deleted in previous exercise):
-   ```shell
-    docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube/images
-   ```
-7. Created docker images by running docker-compose with script:
+4. Edit docker images labels in [docker-compose.yaml](./docker-compose.yaml) and create them by running docker-compose with script:
     ```shell
     docker-compose build
     ```
-8. Pushed docker images to Docker Hub with scripts:
+5. Push docker images to Docker Hub with scripts (remember to change labels to the same that were chosen on the previous step):
     ```shell
-    docker image push katushka/to-do-api:1.0
-    docker image push katushka/to-do-web:1.0
+    docker image push <your docker account>/to-do-api:1.0
+    docker image push <your docker account>/to-do-web:1.0
     ```
-9. Applied configs with script:
+6. Create a k3d cluster:
+    ```shell
+    k3d cluster create -p 8081:80@loadbalancer
+    ```
+7. Create a folder for persistent volume
+   ```shell
+    docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube/images
+   ```
+8. Apply configs with script:
     ```shell
     kubectl apply -f manifests/
     ```  
-10. After the pod was initialized opened http://localhost:8081/to-do and added some todos.
+9. Open http://localhost:8081/to-do in browser and add some todos.

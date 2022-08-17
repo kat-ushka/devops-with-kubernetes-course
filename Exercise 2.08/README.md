@@ -8,6 +8,7 @@
   * [Performing exercise-to-exercise flow](#performing-exercise-to-exercise-flow)
   * [How to do from the scratch](#how-to-do-from-the-scratch)
 <!-- TOC -->
+
 ## Exercise description
 
 Create a database and save the todos there.
@@ -232,6 +233,7 @@ To perform exercise flow I did next steps:
 ### How to do from the scratch
 
 Assuming you have, k3d, kubectl, age, and sops already installed.
+If not check [README.md](../README.md) for the installation links.
 
 1. Open shell and checkout tag Exercise_2.08:
     ```shell

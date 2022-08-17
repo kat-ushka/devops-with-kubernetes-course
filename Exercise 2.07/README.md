@@ -1,9 +1,23 @@
 # Exercise 2.07: Stateful applications
 
 <!-- TOC -->
+* [Exercise description](#exercise-description)
 * [Exercise realization description](#exercise-realization-description)
 * [How to perform required flow](#how-to-perform-required-flow)
+  * [Docker images](#docker-images)
+  * [Performing exercise-to-exercise flow](#performing-exercise-to-exercise-flow)
+  * [How to do from the scratch](#how-to-do-from-the-scratch)
 <!-- TOC -->
+
+## Exercise description
+
+Run a postgres database and save the Ping-pong application counter into the database.
+
+The postgres database and Ping-pong application should not be in the same pod. 
+A single postgres database is enough and it may disappear with the cluster but it should survive 
+even if all pods are taken down.
+
+You should not write the database password in plain text.
 
 ## Exercise realization description
 
@@ -14,17 +28,8 @@ Pingpong Application was massively changed: SQL database interaction was added f
 
 A headless service for Postgesql, a Secret and a StatefulSet objects were added for kubernetes deployments.
 
-In order to perform this exercise I implemented manifests as follows:
+In order to perform this exercise I changed kubernetes manifests as follows:
 
-[namespace.yaml](./manifests/0.namespace.yaml)
-```yaml
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: log-output
-
-```
 [service.yaml](./manifests/1.service.yaml)
 ```yaml
 apiVersion: v1 # Includes the Service for lazyness
@@ -42,37 +47,7 @@ spec:
   selector:
     app: postgres-app
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: log-output
-  name: log-output-svc
-spec:
-  type: ClusterIP
-  selector:
-    app: log-output # This is the app as declared in the deployment.
-  ports: # The following will let TCP traffic from port 2345 to port 8080.
-    - port: 2345
-      protocol: TCP
-      targetPort: 8080
-      name: http
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: log-output
-  name: pingpong-svc
-spec:
-  type: ClusterIP
-  selector:
-    app: ping-pong # This is the app as declared in the deployment.
-  ports: # The following will let TCP traffic from port 2345 to port 8080.
-    - port: 2345
-      protocol: TCP
-      targetPort: 8080
-      name: http
+...
 
 ```
 [statefulset.yaml](./manifests/3.statefulset.yaml)
@@ -123,49 +98,7 @@ spec:
 ```
 [deployment.yaml](./manifests/4.deployment.yaml)
 ```yaml
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: log-output
-  name: log-output-dep
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: log-output
-  template:
-    metadata:
-      labels:
-        app: log-output
-    spec:
-      volumes:
-        - name: shared-file
-          emptyDir: { }
-      containers:
-        - image: "katushka/log-output:1.9"
-          imagePullPolicy: Always
-          name: log-output
-          volumeMounts:
-            - name: shared-file
-              mountPath: /usr/src/app/local_files
-          env:
-            - name: TIME_STAMP_FILEPATH
-              value: "/usr/src/app/local_files/timestamp"
-            - name: PINGS_URL
-              value: "http://pingpong-svc:2345/pingpong/api/counter"
-          envFrom:
-            - configMapRef:
-                name: logoutput-config-env-file
-        - image: "katushka/timestamp-generator:1.3"
-          imagePullPolicy: Always
-          name: timestamp-generator
-          volumeMounts: # Mount volume
-            - name: shared-file
-              mountPath: /usr/src/app/local_files
-          env:
-            - name: TIME_STAMP_FILEPATH
-              value: "/usr/src/app/local_files/timestamp"
+...
 
 ---
 apiVersion: apps/v1
@@ -200,34 +133,6 @@ spec:
               value: "jdbc:postgresql://db-svc:5432/ping"
 
 ```
-[ingress.yaml](./manifests/5.ingress.yaml)
-```yaml
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  namespace: log-output
-  name: dwk-ingress
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: log-output-svc
-                port:
-                  name: http
-          - path: /pingpong
-            pathType: Prefix
-            backend:
-              service:
-                name: pingpong-svc
-                port:
-                  name: http
-
-```
 
 ## How to perform required flow
 
@@ -240,51 +145,46 @@ Docker images can be found here:
 - docker pull katushka/log-output-db:1.0
 
 ### Performing exercise-to-exercise flow
-To perform exercise flow I did next steps:
 
-1. Opened shell and checkout tag Exercise_2.07:
-    ```shell
-    git fetch --all --tags
-    git checkout tags/Exercise_2.07
-    ```
-2. Moved to the folder of this exercise:
+1. Open shell and move to the folder of this exercise:
     ```shell
     cd Exercise\ 2.07
     ```
-3. Created docker images by running docker-compose with script:
-    ```shell
-    docker-compose build
-    ```
-4. Pushed a new docker images to Docker Hub with a script:
-    ```shell
-    docker image push katushka/log-output-db:1.0
-    docker image push katushka/timestamp-generator:1.3
-    docker image push katushka/ping-pong:1.9
-    docker image push katushka/log-output:1.9
-    ```
-5. Created an age key with script:
+2. Create an age key with script:
     ```shell
     age-keygen -o key.txt
     ```
-6. Encrypted secret.yaml config with script:
-    ```shell
-    sops --encrypt --age age1rf6mvs2deuyrv34qsl5ftq7tfvs8f9f3d5f4y63hjcpgznyuc42qj6ep8z --encrypted-regex '^(data)$' secret.yaml > secret.enc.yaml
+3. Create a secret.yaml file like this:
+    ```yaml
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: log-output
+      name: postgres-secret-config
+    type: Opaque
+    data:
+      POSTGRES_PASSWORD: <base64 password>
     ```
-7. Created secret config with script:
+4. Encrypt secret.yaml config with script:
+    ```shell
+    sops --encrypt --age <public_key from the step 3> --encrypted-regex '^(data)$' secret.yaml > secret.enc.yaml
+    ```
+5. Create secret config with script:
     ```shell
     export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
     sops --decrypt secret.enc.yaml | kubectl apply -f -
     ``` 
-8. Applied other manifests:
+6. Apply other manifests:
     ```shell
     kubectl apply -f manifests
     ```
-9. After the pod was initialized opened http://localhost:8081 to see the generated string with 0 ping-pongs.
-   Then visited http://localhost:8081/pingpong to increase the number of ping-pongs and renewed http://localhost:8081 to see an update.
+7. Open http://localhost:8081 to see the generated string with 0 ping-pongs.
+   Then visit http://localhost:8081/pingpong to increase the number of ping-pongs and renew http://localhost:8081 to see an update.
 
 ### How to do from the scratch
 
 Assuming you have, k3d, kubectl, age, and sops already installed.
+If not check [README.md](../README.md) for the installation links.
 
 1. Open shell and checkout tag Exercise_2.07:
     ```shell
@@ -295,7 +195,7 @@ Assuming you have, k3d, kubectl, age, and sops already installed.
     ```shell
     cd Exercise\ 2.07
     ```
-3. Edit docker images labels in [docker-compose.yaml](docker-compose.yaml) and created them by running docker-compose with script:
+3. Edit docker images labels in [docker-compose.yaml](docker-compose.yaml) and create them by running docker-compose with script:
     ```shell
     docker-compose build
     ```
@@ -335,5 +235,5 @@ Assuming you have, k3d, kubectl, age, and sops already installed.
      ```shell
      kubectl apply -f manifests
      ```
-12. After the pod was initialized opened http://localhost:8081 to see the generated string with 0 ping-pongs.
-    Then visited http://localhost:8081/pingpong to increase the number of ping-pongs and renewed http://localhost:8081 to see an update.
+12. Open http://localhost:8081 to see the generated string with 0 ping-pongs.
+    Then visit http://localhost:8081/pingpong to increase the number of ping-pongs and renew http://localhost:8081 to see an update.

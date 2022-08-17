@@ -37,34 +37,20 @@ Docker images can be found here:
 
 ### Performing exercise-to-exercise flow
 
-1. Open shell and checkout tag Exercise_2.10:
-    ```shell
-    git fetch --all --tags
-    git checkout tags/Exercise_2.10
-    ```
-2. Move to the folder of this exercise:
+1. Open shell and move to the folder of this exercise:
     ```shell
     cd Exercise\ 2.10
     ```
-3. Create docker images by running docker-compose with script:
-    ```shell
-    docker-compose build
-    ```
-4. Push a new docker images to Docker Hub with a script:
-    ```shell
-    docker image push katushka/to-do-api:1.2
-    docker image push katushka/to-do-web:1.2
-    ```
-5. Apply manifests:
+2. Apply manifests:
     ```shell
     kubectl apply -f manifests
     ```
-6. Try to create too long TODO executing curl from the to-do-web-dep pod:
+3. Try to create too long TODO executing curl from the to-do-web-dep pod:
     ```shell
     TODO_TEXT="This is a very long todo text. This is a very long todo text. This is a very long todo text. This is a very long todo text. This is a very long todo text."
     curl -d "$TODO_TEXT" -H "Content-Type: application/json" -s -v -X POST http://to-do-api-svc:2345/to-do-api/api/todos
     ```
-7. Check the to-do-api-dep application logs using Grafana and Loki
+4. Check the to-do-api-dep application logs using Grafana and Loki
 
 ### How to do from the scratch
 

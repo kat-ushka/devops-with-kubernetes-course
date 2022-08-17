@@ -66,36 +66,22 @@ Docker images can be found here:
 
 ### Performing exercise-to-exercise flow
 
-To perform exercise flow I did next steps:
-
-1. Opened shell and checkout tag Exercise_2.09:
-    ```shell
-    git fetch --all --tags
-    git checkout tags/Exercise_2.09
-    ```
-2. Moved to the folder of this exercise:
+1. Open shell and move to the folder of this exercise:
     ```shell
     cd Exercise\ 2.09
     ```
-3. Created docker images by running docker-compose with script:
-    ```shell
-    docker-compose build daily
-    ```
-4. Pushed a new docker images to Docker Hub with a script:
-    ```shell
-    docker image push katushka/to-do-daily:1.0
-    ```
-5. Applied manifests:
+2. Apply manifests:
     ```shell
     kubectl apply -f manifests
     ```
-6. Triggered a new CronJob object using Lens application
-7. After the job was completed opened http://localhost:8081/to-do and saw a new TODO.
-8. After a minute checked that job object and dependant pod were deleted automatically.
+3. Trigger a new CronJob object using Lens application
+4. After the job is completed open http://localhost:8081/to-do to see a new TODO.
+5. After a minute check that job object and dependent pod were deleted automatically.
 
 ### How to do from the scratch
 
 Assuming you have, k3d, kubectl, Lens, age, and sops already installed.
+If not check [README.md](../README.md) for the installation links.
 
 1. Open shell and checkout tag Exercise_2.09:
     ```shell

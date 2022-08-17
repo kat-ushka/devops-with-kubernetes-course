@@ -1,9 +1,17 @@
 # Exercise 2.04: Project v1.1
 
 <!-- TOC -->
+* [Exercise description](#exercise-description)
 * [Exercise realization description](#exercise-realization-description)
 * [How to perform required flow](#how-to-perform-required-flow)
+   * [Docker images](#docker-images)
+   * [Performing exercise-to-exercise flow](#performing-exercise-to-exercise-flow)
+   * [How to do from the scratch](#how-to-do-from-the-scratch)
 <!-- TOC -->
+
+## Exercise description
+
+Create a namespace for the project and move everything related to the project to that namespace.
 
 ## Exercise realization description
 
@@ -12,7 +20,7 @@ A new namespace `to-do-project` was created with [0.namespace.yaml](./manifests/
 
 The revision of the code for this exercise is tagged with `Exercise_2.04`.
 
-In order to perform this exercise I implemented deployment manifest as follows:
+In order to perform this exercise I implemented kubernetes manifests as follows:
 [namespace.yaml](./manifests/0.namespace.yaml)
 ```yaml
 ---
@@ -179,37 +187,61 @@ spec:
 
 ## How to perform required flow
 
+### Docker images
+
 Docker images can be found here:
 - docker pull katushka/to-do-api:1.0
 - docker pull katushka/to-do-web:1.0
 
-To perform exercise flow I did next steps:
+### Performing exercise-to-exercise flow
 
-1. Opened shell and moved to the project folder.
+1. Open shell and move to the project folder.
 2. Checkout tag `Exercise_2.04`:
     ```shell
     git fetch --all --tags
     git checkout tags/Exercise_2.04
     ``` 
-3. Moved to the folder of the previous ToDo application exercise (Exercise 2.02) with script:
+3. Move to the folder of the previous ToDo application exercise (Exercise 2.02) with script:
     ```shell
     cd Exercise\ 2.02
     ```
-4. Deleted previous artifacts with script:
+4. Delete previous artifacts with script:
     ```shell
     kubectl delete -f manifests
     ```
-5. Moved to the current exercise folder with the script:
+5. Move to the current exercise folder with the script:
     ```shell
-    cd ..
-    cd Exercise\ 2.04
+    cd ../Exercise\ 2.04
     ```
-6. Applied configs with script:
+6. Apply configs with script:
     ```shell
     kubectl apply -f manifests/
     ```  
-7. Checked that new pods were created in a new namespace with the script:
+7. Check that new pods were created in a new namespace with the script:
     ```shell
     kubectl get pods -n to-do-project
     ```
-8. After the pod was initialized opened http://localhost:8081/to-do and added some todos ti check that everything still works.
+8. Open http://localhost:8081/to-do and add some todos to check that everything still works.
+
+### How to do from the scratch
+
+1. Open shell and move to the project folder.
+2. Checkout tag `Exercise_2.04`:
+    ```shell
+    git fetch --all --tags
+    git checkout tags/Exercise_2.04
+    ```
+3. Follow steps 3 to 7 of the *How to do from the scratch* in [README.md](../Exercise 2.02/README.md).
+4. Move to the current exercise folder with the script:
+    ```shell
+    cd ../Exercise\ 2.04
+    ```
+5. Apply configs with script:
+    ```shell
+    kubectl apply -f manifests/
+    ``` 
+6. Check that new pods were created in a correct namespace with the script:
+    ```shell
+    kubectl get pods -n to-do-project
+    ``` 
+7. Open http://localhost:8081/to-do and add some todos to check that everything works fine.
