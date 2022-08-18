@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: log-output
+  name: ping-pong-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-pong
+  template:
+    metadata:
+      labels:
+        app: ping-pong
+    spec:
+      containers:
+        - image: "katushka/ping-pong:1.9"
+          imagePullPolicy: Always
+          name: ping-pong
+          env:
+            - name: DB_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key:  POSTGRES_PASSWORD
+                  optional: false
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_URL
+              value: "jdbc:postgresql://db-svc:5432/ping"
+
+

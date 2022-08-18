@@ -21,6 +21,7 @@
         <module>Exercise 1.11</module>
         <module>Exercise 1.12</module>
         <module>Exercise 1.13</module>
+
         <module>Exercise 2.01</module>
         <module>Exercise 2.02</module>
         <module>Exercise 2.03</module>
@@ -31,6 +32,9 @@
         <module>Exercise 2.08</module>
         <module>Exercise 2.09</module>
         <module>Exercise 2.10</module>
+
+        <module>Exercise 3.01</module>
+
         <module>to-do-project</module>
         <module>log-output-project</module>
     </modules>
