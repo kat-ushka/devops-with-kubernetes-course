@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ping-pong</artifactId>
   <packaging>war</packaging>
-  <version>1.8</version>
+  <version>1.10</version>
   <name>Ping-pong Webapp</name>
 
   <parent>
@@ -111,6 +111,6 @@
   </dependencies>
 
   <build>
-    <finalName>pingpong</finalName>
+    <finalName>ROOT</finalName>
   </build>
 </project>

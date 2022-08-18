@@ -41,6 +41,7 @@ To implement this exercise I copied previously done manifests from the Exercise 
 - The type of the pingpong-svc Service object was changed to LoadBalancer.
 - storageClassName was removed from the volumeClaimTemplates spec of the postgresql StatefulSet object.
 - subPath was added to the volumeMounts of the postgresql StatefulSet object.
+- ingress manifest was deleted.
 
 No changes to the code were made.
 
@@ -158,7 +159,7 @@ Docker images can be found here:
     ```
 10. Check an IP of the pingpong-svc with kubectl script:
      ```shell
-     kubectl get svc --watch
+     kubectl get svc --watch -n log-output
      ```
 11. Visit http://<pingpong-svc host>:<pingpong-svc port>/pingpong to increase the number of ping-pongs
 12. Delete the cluster to avoid using up the credits:
@@ -168,7 +169,8 @@ Docker images can be found here:
 
 ### How to do from the scratch
 
-Assuming you have, k3d, kubectl, Lens, age, and sops already installed.
+Assuming you have kubectl, age, sops, and Google Cloud SDK already installed and configured.
+If not check [README.md](../README.md) for the installation links.
 
-1. Perform the flow of Exercise_2.07 as it is described in *How to do from the scratch* part of [README.md](../Exercise%202.07/README.md).
+1. Perform steps 1 to 7 of the Exercise_2.07 as it is described in *How to do from the scratch* part of [README.md](../Exercise%202.07/README.md).
 2. Continue with *Performing exercise-to-exercise flow* part of this README.

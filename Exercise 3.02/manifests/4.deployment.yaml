@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: log-output
+  name: log-output-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output
+  template:
+    metadata:
+      labels:
+        app: log-output
+    spec:
+      volumes:
+        - name: shared-file
+          emptyDir: { }
+      containers:
+        - image: "katushka/log-output:1.9"
+          imagePullPolicy: Always
+          name: log-output
+          volumeMounts:
+            - name: shared-file
+              mountPath: /usr/src/app/local_files
+          env:
+            - name: TIME_STAMP_FILEPATH
+              value: "/usr/src/app/local_files/timestamp"
+            - name: PINGS_URL
+              value: "http://pingpong-svc/pingpong/api/counter"
+          envFrom:
+            - configMapRef:
+                name: logoutput-config-env-file
+        - image: "katushka/timestamp-generator:1.3"
+          imagePullPolicy: Always
+          name: timestamp-generator
+          volumeMounts: # Mount volume
+            - name: shared-file
+              mountPath: /usr/src/app/local_files
+          env:
+            - name: TIME_STAMP_FILEPATH
+              value: "/usr/src/app/local_files/timestamp"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: log-output
+  name: ping-pong-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-pong
+  template:
+    metadata:
+      labels:
+        app: ping-pong
+    spec:
+      containers:
+        - image: "katushka/ping-pong:1.10"
+          imagePullPolicy: Always
+          name: ping-pong
+          env:
+            - name: DB_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key:  POSTGRES_PASSWORD
+                  optional: false
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_URL
+              value: "jdbc:postgresql://db-svc:5432/ping"
+
+

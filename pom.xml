@@ -8,6 +8,7 @@
     <name>Devops with kubernetes course exercises</name>
 
     <modules>
+        <!--Part 1-->
         <module>Exercise 1.01</module>
         <module>Exercise 1.02</module>
         <module>Exercise 1.03</module>
@@ -22,6 +23,7 @@
         <module>Exercise 1.12</module>
         <module>Exercise 1.13</module>
 
+        <!--Part 2-->
         <module>Exercise 2.01</module>
         <module>Exercise 2.02</module>
         <module>Exercise 2.03</module>
@@ -33,8 +35,11 @@
         <module>Exercise 2.09</module>
         <module>Exercise 2.10</module>
 
+        <!--Part 3-->
         <module>Exercise 3.01</module>
+        <module>Exercise 3.02</module>
 
+        <!--The code-->
         <module>to-do-project</module>
         <module>log-output-project</module>
     </modules>

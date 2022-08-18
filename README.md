@@ -11,3 +11,4 @@ To follow this exercises one will need to install:
 * [age](https://github.com/FiloSottile/age)
 * [sops](https://github.com/mozilla/sops)
 * [helm](https://helm.sh/docs/intro/install/)
+* [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)

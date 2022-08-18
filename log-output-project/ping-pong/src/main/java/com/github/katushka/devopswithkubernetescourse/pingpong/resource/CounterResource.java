@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 
-@Path("/counter")
+@Path("pingpong/api/counter")
 public class CounterResource {
     @Inject private Counter counter;
     private final Logger logger = LogManager.getLogger(getClass());

@@ -206,34 +206,45 @@ If not check [README.md](../README.md) for the installation links.
     docker image push <your docker account>/ping-pong:1.9
     docker image push <your docker account>/log-output:1.9
     ```
-5. Create an age key with script:
+5. Create a secret.yaml file like this:
+    ```yaml
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: log-output
+      name: postgres-secret-config
+    type: Opaque
+    data:
+      POSTGRES_PASSWORD: <base64 password>
+    ```
+6. Create an age key with script:
     ```shell
     age-keygen -o key.txt
     ```
-6. Encrypt secret.yaml config with script:
+7. Encrypt secret.yaml config with script:
     ```shell
     sops --encrypt --age <public key from the previous step> --encrypted-regex '^(data)$' secret.yaml > secret.enc.yaml
     ```
-7. Create a k3d cluster:
+8. Create a k3d cluster:
     ```shell
     k3d cluster create -p 8081:80@loadbalancer
     ```
-8. Create a namespace:
+9. Create a namespace:
    ```shell
    kubectl apply -f manifests/0.namespace.yaml
    ```
-9. Create a ConfigMap for the Log Output application:
-   ```shell
-   kubectl create configmap logoutput-config-env-file -n log-output --from-env-file=../log-output-project/log-output/configs/env-file.properties
-   ```
-10. Create a secret config:
+10. Create a ConfigMap for the Log Output application:
+    ```shell
+    kubectl create configmap logoutput-config-env-file -n log-output --from-env-file=../log-output-project/log-output/configs/env-file.properties
+    ```
+11. Create a secret config:
      ```shell
      export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
      sops --decrypt secret.enc.yaml | kubectl apply -f -
      ``` 
-11. Applied all the other manifests (remember to change labels of the docker images if you had created you own on the step 4):
+12. Applied all the other manifests (remember to change labels of the docker images if you had created you own on the step 4):
      ```shell
      kubectl apply -f manifests
      ```
-12. Open http://localhost:8081 to see the generated string with 0 ping-pongs.
+13. Open http://localhost:8081 to see the generated string with 0 ping-pongs.
     Then visit http://localhost:8081/pingpong to increase the number of ping-pongs and renew http://localhost:8081 to see an update.

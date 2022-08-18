@@ -10,5 +10,5 @@ RUN mvn clean package -Dmaven.test.skip=true -pl ping-pong -am
 
 FROM amd64/tomcat:10-jre17-temurin-focal AS ping-pong
 EXPOSE 8080
-COPY --from=build /usr/src/app/ping-pong/target/pingpong.war /usr/local/tomcat/webapps/
+COPY --from=build /usr/src/app/ping-pong/target/ROOT.war /usr/local/tomcat/webapps/
 CMD ["catalina.sh", "run"]
