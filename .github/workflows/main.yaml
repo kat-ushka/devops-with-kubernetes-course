@@ -1,0 +1,68 @@
+name: Release application
+
+on:
+  push:
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: $PROJECT_ID
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          export_default_credentials: true
+      - run: gcloud --quiet auth configure-docker
+      - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      - name: Build
+        run: |-
+          docker build \
+            --file ./to-do-project/Dockerfile.api \
+            --tag "gcr.io/$PROJECT_ID/$TODO_API_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+            .
+          docker build \
+            --file ./to-do-project/Dockerfile.web \
+            --tag "gcr.io/$PROJECT_ID/$TODO_WEB_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+            .
+          docker build \
+            --file ./to-do-project/Dockerfile.db \
+            --tag "gcr.io/$PROJECT_ID/$TODO_DB_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+            .
+          docker build \
+            --file ./to-do-project/Dockerfile.daily \
+            --tag "gcr.io/$PROJECT_ID/$TODO_DAILY_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+            .
+      - name: Publish
+        run: |-
+          docker push "gcr.io/$PROJECT_ID/$TODO_API_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+          docker push "gcr.io/$PROJECT_ID/$TODO_WEB_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+          docker push "gcr.io/$PROJECT_ID/$TODO_DB_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+          docker push "gcr.io/$PROJECT_ID/$TODO_DAILY_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v1
+      - name: Deploy
+        run: |-
+          kustomize edit set image gcr.io/PROJECT_ID/TODO_API_IMAGE=gcr.io/$PROJECT_ID/$TODO_API_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+          kustomize edit set image gcr.io/PROJECT_ID/TODO_WEB_IMAGE=gcr.io/$PROJECT_ID/$TODO_WEB_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+          kustomize edit set image gcr.io/PROJECT_ID/TODO_DB_IMAGE=gcr.io/$PROJECT_ID/$TODO_DB_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+          kustomize edit set image gcr.io/PROJECT_ID/TODO_DAILY_IMAGE=gcr.io/$PROJECT_ID/$TODO_DAILY_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment $TODO_API_IMAGE
+          kubectl rollout status deployment $TODO_WEB_IMAGE
+          kubectl rollout status deployment $TODO_DB_IMAGE
+          kubectl rollout status deployment $TODO_DAILY_IMAGE
+          kubectl get services -o wide
+env:
+  PROJECT_ID: ${{ secrets.GKE_DWK_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  TODO_API_IMAGE: to-do-api
+  TODO_WEB_IMAGE: to-do-web
+  TODO_DB_IMAGE: to-do-db
+  TODO_DAILY_IMAGE: to-do-daily
+
