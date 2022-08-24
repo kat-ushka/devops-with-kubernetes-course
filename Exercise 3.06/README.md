@@ -68,7 +68,7 @@ Total is $1449.
 
 #### Pros
 
-1. It costs less than a DBaaS approach. In our example it is almost 50% less.
+1. It costs less than a DBaaS approach. In our example it is almost 50% less. But we didn't plus a dba hours costs. 
 2. You have more control on what is going on.
 
 #### Cons
