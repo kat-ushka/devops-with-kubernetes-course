@@ -32,6 +32,7 @@ Let's assume also that we do not need high availability, we store 2 last backups
 #### Pricing
 
 Let's try to calculate the price for a year using 1-year commitment price:
+
 1. 4 vCPU will cost $24.8711 * 4 (vCPU) * 12 (month) ~= $1194
 2. 16 Gb will cost $4.2194 * 16 (Gb) * 12 (month) ~= $810
 3. Storage: $0.187 * ((5 + (5 + 5 * 11)) * 12) / 2 = $0.187 * 390 ~= $73
@@ -56,6 +57,8 @@ Total is $2146.
 ### DIY
 
 #### Pricing
+
+Let's assume we are putting our database in a VM in a GCP:
 
 1. VM e2-standard-4 (4 vCPU, 16 Gb Memory) with 60 Gb SSD disk will cost $120.04 * 12 ~= $1440
 2. Cloud storage Nearline bucket for backups will cost $0.010 * ((10 + (10 + 10 * 11)) * 12) / 2 = $0.004 * 780 = $8
