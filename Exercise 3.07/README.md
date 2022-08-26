@@ -6,7 +6,4 @@ Use Google Cloud SQL or Postgres with PersistentVolumeClaims in your project. Gi
 
 ## Exercise realization
 
-I would use Google Cloud SQL because:
-
-1. I want to try this approach.
-2. It sounds easier =)
+I would use Postgres with PersistentVolumeClaims because I already did, and it was quite simple for this case.
