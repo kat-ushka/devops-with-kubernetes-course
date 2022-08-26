@@ -1,6 +1,5 @@
 package com.github.katushka.devopswithkubernetescourse.resource;
 
-import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.client.Client;
@@ -18,7 +17,6 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-@Singleton
 @Path("/")
 public class GeneratedStringResource {
 
@@ -55,6 +53,7 @@ public class GeneratedStringResource {
         WebTarget target = client.target(pingPongUrl);
         try (Response response = target.request().get()) {
             String value = response.readEntity(String.class);
+            logger.atDebug().log("Ping-pongs are {}", value);
             return Integer.parseInt(value);
         }
     }
