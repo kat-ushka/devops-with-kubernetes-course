@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-@ApplicationPath("/")
+@ApplicationPath("/pingpong/api")
 public class RestActivator extends Application {
 
     public RestActivator() {

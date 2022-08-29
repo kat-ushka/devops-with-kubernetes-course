@@ -47,6 +47,9 @@
         <module>Exercise 3.09</module>
         <module>Exercise 3.10</module>
 
+        <!--Part 4-->
+        <module>Exercise 4.01</module>
+
         <!--The code-->
         <module>to-do-project</module>
         <module>log-output-project</module>

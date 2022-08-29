@@ -41,6 +41,21 @@ public class ConnectionFactory {
         }
     }
 
+    public boolean isConnectionAvailable() {
+        try {
+            connect(connection -> {
+                logger.atDebug().log("Test connection to the database {} is established", dataSource.getUrl());
+            });
+            return true;
+        } catch (SQLException e) {
+            logger.atError().withThrowable(e)
+                    .log("Filed to establish connection to the database {} due to exception: {}",
+                            dataSource.getUrl(),
+                            e.getMessage());
+        }
+        return false;
+    }
+
     /**
      * Kubernetes adds a `\n` character to the secret value,
      * so it needs to be cut off.
