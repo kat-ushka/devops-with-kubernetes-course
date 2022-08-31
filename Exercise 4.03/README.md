@@ -22,6 +22,7 @@ Start a Prometheus with helm (see part 2) and use port-forward to access the gui
 >$ kubectl -n prometheus port-forward prometheus-kube-prometheus-stack-1602-prometheus-0 9090:9090
 >
 >Forwarding from 127.0.0.1:9090 -> 9090
+> 
 >Forwarding from [::1]:9090 -> 9090
 
 And now accessing http://localhost:9090 will allow us to write queries. 
