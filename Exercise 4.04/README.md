@@ -55,7 +55,7 @@ Make sure that the application doesn't get updated if the value is set too low.
                  - templateName: cpu-rate
    ...
    ```
-5. Added a new nalysistemplate.yaml config to kustomization.yaml and replaced the deployment.yaml with rollout.yaml
+5. Added a new analysistemplate.yaml config to kustomization.yaml and replaced the deployment.yaml with rollout.yaml
 6. Added an `Install kubectl argo rollouts plugin` step to a build-publish-deploy job in .github/workflows/main.yaml to install argo rollouts kubectl plugin on running on machine
 7. Changed  `kubectl rollout status ...` to `kubectl-argo-rollouts status` for new rollouts.
 8. Pushed the changes and see the difference. At first I put the target CPU rate value to 0.6 and it fails and rollback the release. Then I changed it to 0.8 and it succeded.
